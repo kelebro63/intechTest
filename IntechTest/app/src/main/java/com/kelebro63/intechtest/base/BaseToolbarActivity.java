@@ -11,7 +11,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by dtx12 on 24.09.2015.
+ * Created by kelebro63 on 02.06.2016
  */
 public abstract class BaseToolbarActivity extends BaseActivity implements FragmentManager.OnBackStackChangedListener {
     @Bind(R.id.toolbar)

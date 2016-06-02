@@ -6,8 +6,16 @@ import android.support.annotation.StringRes;
 import android.view.inputmethod.InputMethodManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.kelebro63.intechtest.App;
 import com.kelebro63.intechtest.R;
+import com.kelebro63.intechtest.di.components.ActivityComponent;
+import com.kelebro63.intechtest.di.components.DaggerActivityComponent;
+import com.kelebro63.intechtest.di.modules.ActivityModule;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
+/**
+ * Created by kelebro63 on 02.06.2016
+ */
 
 public class BaseActivity extends RxAppCompatActivity implements IView {
 
@@ -16,6 +24,10 @@ public class BaseActivity extends RxAppCompatActivity implements IView {
     @Override
     public void setInProgress(boolean inProgress) {
 
+    }
+
+    protected ActivityComponent createActivityComponent() {
+        return DaggerActivityComponent.builder().appComponent(App.getAppComponent(this)).activityModule(new ActivityModule(this)).build();
     }
 
     @Override

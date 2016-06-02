@@ -8,15 +8,21 @@ import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.kelebro63.intechtest.App;
 import com.kelebro63.intechtest.R;
+import com.kelebro63.intechtest.di.components.DaggerFragmentComponent;
+import com.kelebro63.intechtest.di.components.FragmentComponent;
+import com.kelebro63.intechtest.di.modules.FragmentModule;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 import butterknife.ButterKnife;
 
 /**
- * Created by dtx12 on 22.09.2015.
+ * Created by kelebro63 on 02.06.2016
  */
 public abstract class BaseFragment extends RxFragment implements IView {
     private MaterialDialog progressDialog;
@@ -40,9 +46,9 @@ public abstract class BaseFragment extends RxFragment implements IView {
         }
     }
 
-//    protected FragmentComponent createFragmentComponent() {
-//        return DaggerFragmentComponent.builder().appComponent(App.getAppComponent(getActivity())).fragmentModule(new FragmentModule(this)).build();
-//    }
+    protected FragmentComponent createFragmentComponent() {
+        return DaggerFragmentComponent.builder().appComponent(App.getAppComponent(getActivity())).fragmentModule(new FragmentModule(this)).build();
+    }
 
     @Override
     public void onResume() {
@@ -92,13 +98,13 @@ public abstract class BaseFragment extends RxFragment implements IView {
         ((BaseActivity) getActivity()).displayError(stringRes);
     }
 
-//    @Override
-//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-//        if (enter) {
-//            return AnimationUtils.loadAnimation(getContext(), R.anim.abc_fade_in);
-//        }
-//        return AnimationUtils.loadAnimation(getContext(), R.anim.abc_fade_out);
-//    }
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if (enter) {
+            return AnimationUtils.loadAnimation(getContext(), R.anim.abc_fade_in);
+        }
+        return AnimationUtils.loadAnimation(getContext(), R.anim.abc_fade_out);
+    }
 
     @Nullable
     protected String getSubtitle() {
