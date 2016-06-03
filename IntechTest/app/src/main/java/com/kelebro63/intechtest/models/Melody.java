@@ -4,13 +4,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.kelebro63.intechtest.main.melodies_list.MelodyItemType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Bistrov Alexey on 02.06.2016.
  */
-public class Melody {
+public class Melody implements Serializable {
 
         @SerializedName("id")
         @Expose

@@ -2,6 +2,7 @@ package com.kelebro63.intechtest.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.view.inputmethod.InputMethodManager;
 
@@ -17,7 +18,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
  * Created by kelebro63 on 02.06.2016
  */
 
-public class BaseActivity extends RxAppCompatActivity implements IView {
+public class BaseActivity extends RxAppCompatActivity implements IView, DialogInterface.OnCancelListener {
 
     private MaterialDialog progressDialog;
 
@@ -66,5 +67,10 @@ public class BaseActivity extends RxAppCompatActivity implements IView {
         if (getCurrentFocus() != null) {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialogInterface) {
+        onBackPressed();
     }
 }

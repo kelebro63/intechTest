@@ -26,6 +26,6 @@ public class MainActivity extends BaseToolbarActivity {
         super.onCreate(savedInstanceState);
         createActivityComponent().inject(this);
         presenter.setView(this);
-        //presenter.getCard();
+        presenter.determineScreenToShow();
     }
 }

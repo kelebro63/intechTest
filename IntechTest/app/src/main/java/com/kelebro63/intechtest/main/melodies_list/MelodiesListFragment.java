@@ -27,6 +27,10 @@ import butterknife.Bind;
  * Created by kelebro63 on 02.06.2016
  */
 public class MelodiesListFragment extends BaseFragment implements IMelodiesView, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<Melody> {
+
+    public static final int FIRST_PAGE = 0;
+    public static final int LIMIT_MELODIES = 20;
+
     @Bind(R.id.melodiesPtrView)
     SwipeRefreshLayout melodiesPtrView;
     @Bind(R.id.melodiesList)
@@ -95,7 +99,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
     @Override
     public void onRefresh() {
-       // presenter.updateMelodies();
+        presenter.loadMelodies(LIMIT_MELODIES, FIRST_PAGE);
     }
 
     @Override
@@ -121,7 +125,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Override
     public void onResume() {
         super.onResume();
-        //presenter.loadMelodies();
+        presenter.loadMelodies(LIMIT_MELODIES, FIRST_PAGE);
     }
 
     @Override

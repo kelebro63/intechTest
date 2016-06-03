@@ -1,11 +1,10 @@
 package com.kelebro63.intechtest.api;
 
 
-import com.kelebro63.intechtest.models.Melody;
+import com.kelebro63.intechtest.models.ResponseMelody;
 
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -13,8 +12,8 @@ import rx.Observable;
  */
 public interface IIntechAPI {
 
-    @FormUrlEncoded
-    @POST("public/marketplaces/1/tags/4/melodies")
-    Observable<Melody> getSongsList(@Field("limit") int limit, @Field("offset") int offset);
+
+    @GET("public/marketplaces/1/tags/4/melodies")
+    Observable<ResponseMelody> getSongsList(@Query("limit") int limit, @Query("offset") int offset);
 
 }
