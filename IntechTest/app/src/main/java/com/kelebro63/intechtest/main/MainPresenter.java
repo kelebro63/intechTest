@@ -23,28 +23,7 @@ public class MainPresenter extends BasePresenter<IView> {
         this.navigator = navigator;
     }
 
-//    public void getCard() {
-//        subscribe(api.getCard(), getCardSubscriber());
-//    }
-//
-//    private NetworkSubscriber<Card> getCardSubscriber() {
-//        return new NetworkSubscriber<Card>(getView(), this) {
-//            @Override
-//            public void onNext(Card card) {
-//                super.onNext(card);
-//                prefs.updateCard(card);
-//            }
-//
-//            @Override
-//            public void onError(Throwable throwable) {
-//                int errorCode = RetrofitUtils.getErrorCode(throwable);
-//                if (errorCode == 404) {
-//                    prefs.setStateCard(CardStatusType.NEW);
-//                    view.setInProgress(false);
-//                } else {
-//                    super.onError(throwable);
-//                }
-//            }
-//        };
-//    }
+    public void determineScreenToShow() {
+        navigator.navigateToMelodiesList();
+    }
 }

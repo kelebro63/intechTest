@@ -3,7 +3,9 @@ package com.kelebro63.intechtest.main;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseActivity;
+import com.kelebro63.intechtest.main.melodies_list.MelodiesListFragment;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class MainNavigator {
         this.fragmentManager = fragmentManager;
         this.activity = activity;
     }
-    
+
     public Fragment getVisibleFragment(){
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
@@ -36,5 +38,10 @@ public class MainNavigator {
 
     public void goBack() {
         fragmentManager.popBackStackImmediate();
+    }
+
+    public void navigateToMelodiesList() {
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager.beginTransaction().replace(R.id.container, new MelodiesListFragment()).commit();
     }
 }

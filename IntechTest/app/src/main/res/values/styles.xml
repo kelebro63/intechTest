@@ -17,4 +17,9 @@
         <item name="android:textColor">@color/black.semi_transparent</item>
     </style>
 
+    <style name="ListItem">
+        <item name="android:background">@drawable/item_selector</item>
+        <item name="android:clickable">true</item>
+    </style>
+
 </resources>

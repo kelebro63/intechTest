@@ -4,4 +4,5 @@
     <string name="dialogs.please_wait">Пожалуйста подождите…</string>
     <string name="api.error.network">Отсуствует подключение к сети!</string>
     <string name="api.error.server">Произошла ошибка на сервере!</string>
+    <string name="melodies">Мелодии</string>
 </resources>
