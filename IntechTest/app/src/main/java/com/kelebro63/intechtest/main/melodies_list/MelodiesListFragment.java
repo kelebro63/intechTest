@@ -99,7 +99,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
     @Override
     public void onRefresh() {
-        presenter.loadMelodies(LIMIT_MELODIES, FIRST_PAGE);
+        presenter.updateMelodies(LIMIT_MELODIES, FIRST_PAGE);
     }
 
     @Override

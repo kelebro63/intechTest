@@ -71,6 +71,13 @@ public class Melody implements Serializable {
         @Expose
         private MelodyItemType itemType = MelodyItemType.NORMAL;
 
+        public static Melody createDivider() {
+                Melody melody = new Melody();
+                melody.setItemType(MelodyItemType.DIVIDER);
+                return melody;
+        }
+
+
         /**
          *
          * @return

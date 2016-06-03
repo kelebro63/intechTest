@@ -32,4 +32,15 @@ public class ResponseMelody implements Serializable {
         public void setMelodies(List<Melody> melodies) {
             this.melodies = melodies;
         }
+
+        public static ArrayList<Melody> addDividers(List<Melody> melodies) {
+                ArrayList<Melody> result = new ArrayList<>();
+                for (int i = 0; i < melodies.size(); i++) {
+                        result.add(melodies.get(i));
+                        if (i != melodies.size() - 1) {
+                                result.add(Melody.createDivider());
+                        }
+                }
+                return result;
+        }
 }

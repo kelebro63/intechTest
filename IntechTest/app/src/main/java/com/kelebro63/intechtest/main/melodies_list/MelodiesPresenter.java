@@ -2,10 +2,10 @@ package com.kelebro63.intechtest.main.melodies_list;
 
 import com.kelebro63.intechtest.api.IIntechAPI;
 import com.kelebro63.intechtest.base.BasePresenter;
+import com.kelebro63.intechtest.base.NetworkPtrSubscriber;
 import com.kelebro63.intechtest.base.NetworkSubscriber;
 import com.kelebro63.intechtest.main.MainNavigator;
 import com.kelebro63.intechtest.models.ResponseMelody;
-import com.kelebro63.intechtest.utils.RetrofitUtils;
 
 import javax.inject.Inject;
 
@@ -35,11 +35,30 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> {
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
+                getView().displayMelodies(ResponseMelody.addDividers(responseMelody.getMelodies()));
             }
 
             @Override
             public void onError(Throwable throwable) {
-                int errorCode = RetrofitUtils.getErrorCode(throwable);
+                super.onError(throwable);
+            }
+        };
+    }
+
+    public void updateMelodies(int limit, int offset) {
+        subscribe(api.getSongsList(limit, offset), updateMelodiesSubscriber());
+    }
+
+    private NetworkPtrSubscriber<ResponseMelody> updateMelodiesSubscriber() {
+        return new NetworkPtrSubscriber<ResponseMelody>(getView(), this) {
+            @Override
+            public void onNext(ResponseMelody responseMelody) {
+                super.onNext(responseMelody);
+                getView().displayMelodies(ResponseMelody.addDividers(responseMelody.getMelodies()));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
                 super.onError(throwable);
             }
         };
