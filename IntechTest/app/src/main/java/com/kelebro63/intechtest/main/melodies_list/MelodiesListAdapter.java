@@ -35,6 +35,9 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
             case 3:
                 view = LayoutInflater.from(context).inflate(R.layout.melodies_normal_item, parent, false);
                 return new MelodyActiveViewHolder(view);
+            case 4:
+                view = LayoutInflater.from(context).inflate(R.layout.melodies_item_footer, parent, false);
+                return new MelodiesLoadingFooterViewHolder(view);
         }
         throw new IllegalStateException("View type is not implemented");
     }
@@ -42,6 +45,8 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
     @Override
     public int getItemViewType(int position) {
         Melody item = getItem(position);
+        if (item == null )
+            return 4;
         if (item == null || item.getItemType() == null)
             return 2;
         switch (item.getItemType()) {
@@ -54,6 +59,8 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
                 return 2;
             case ACTIVE:
                 return 3;
+            case PROGRESS:
+                return 4;
         }
         return 0;
     }
