@@ -14,6 +14,6 @@ public interface IIntechAPI {
 
 
     @GET("public/marketplaces/1/tags/4/melodies")
-    Observable<ResponseMelody> getSongsList(@Query("limit") int limit, @Query("offset") int offset);
+    Observable<ResponseMelody> getSongsList(@Query("limit") int limit, @Query("from") int offset);
 
 }

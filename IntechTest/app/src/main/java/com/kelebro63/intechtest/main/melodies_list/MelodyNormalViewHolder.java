@@ -30,8 +30,13 @@ public class MelodyNormalViewHolder extends BaseMelodyViewHolder {
 
     @Override
     public void bind(Melody item) {
-        titleMusic.setText(item.getTitle());
-        artist.setText(item.getArtist());
+        if (item.getTitle() != null) {
+            titleMusic.setText(item.getTitle());
+        }
+        if (item.getArtist() != null) {
+            artist.setText(item.getArtist());
+        }
+
         Picasso.with(getContext()).load(item.getPicUrl()).into(cover);
     }
 

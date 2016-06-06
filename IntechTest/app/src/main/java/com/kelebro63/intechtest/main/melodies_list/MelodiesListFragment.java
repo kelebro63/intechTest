@@ -40,6 +40,9 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Inject
     MainNavigator navigator;
 
+    private MelodiesListAdapter adapter;
+    private LinearLayoutManager layoutManager;
+
     @Override
     protected int getLayoutId() {
         return R.layout.melodies_fragment;
@@ -56,17 +59,30 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         setHasOptionsMenu(true);
         createFragmentComponent().inject(this);
         presenter.setView(this);
-        melodiesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        melodiesList.setLayoutManager(layoutManager);
         melodiesPtrView.setOnRefreshListener(this);
         melodiesPtrView.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.red_bright));
+        adapter = new MelodiesListAdapter();
+        adapter.setOnItemClickListener(this);
+        melodiesList.setAdapter(adapter);
+        melodiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (!adapter.isLoading() &&  //adapter is not already loading more news
+                        layoutManager.findLastCompletelyVisibleItemPosition() == adapter.getItemCount() - 1 //reached the last item
+                        ) {
+                    adapter.displayLoadingFooter();//indicate loading more news by showing footer
+                    melodiesList.smoothScrollToPosition(adapter.getItemCount() - 1);//smooth scroll to footer
+                    presenter.loadMelodies();//load more news
+                }
+            }
+        });
     }
 
     @Override
     public void displayMelodies(List<Melody> melodies) {
-        MelodiesListAdapter adapter = new MelodiesListAdapter();
-        adapter.setItems(melodies);
-        adapter.setOnItemClickListener(this);
-        melodiesList.setAdapter(adapter);
+        adapter.addItems(melodies);
     }
 
 
@@ -125,7 +141,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Override
     public void onResume() {
         super.onResume();
-        presenter.loadMelodies(LIMIT_MELODIES, FIRST_PAGE);
+        presenter.loadMelodies();
     }
 
     @Override

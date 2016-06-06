@@ -9,10 +9,16 @@ import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseArrayAdapter;
 import com.kelebro63.intechtest.models.Melody;
 
+import java.util.List;
+
 /**
  * Created by kelebro63 on 02.06.2016
  */
 public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, Melody> {
+
+
+    private boolean isLoading;
+
     @Override
     protected BaseMelodyViewHolder onCreateViewHolder(Context context, ViewGroup parent, int viewType) {
         View view;
@@ -36,6 +42,8 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
     @Override
     public int getItemViewType(int position) {
         Melody item = getItem(position);
+        if (item == null || item.getItemType() == null)
+            return 2;
         switch (item.getItemType()) {
 
             case NORMAL:
@@ -49,4 +57,27 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
         }
         return 0;
     }
+
+    public void displayLoadingFooter() {
+        isLoading = true;
+        addItem(null);//null item means the progress item
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    @Override
+    public void addItems(List<Melody> newItems) {
+        if (!isEmpty()) {
+            //remove the progress item
+            Melody remove = getItems().remove(getItemCount() - 1);
+            if (remove != null) {
+            }
+        }
+        super.addItems(newItems);
+        isLoading = false;
+    }
+
+
 }

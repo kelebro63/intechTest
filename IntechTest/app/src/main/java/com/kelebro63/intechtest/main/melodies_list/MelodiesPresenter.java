@@ -18,6 +18,8 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> {
 
     private final IIntechAPI api;
     private final MainNavigator navigator;
+    private int currentPage = 0;
+    private boolean isLoading;
 
     @Inject
     public MelodiesPresenter(Observable.Transformer transformer, IIntechAPI api, MainNavigator navigator) {
@@ -26,16 +28,26 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> {
         this.navigator = navigator;
     }
 
-    public void loadMelodies(int limit, int offset) {
-        subscribe(api.getSongsList(limit, offset), getMelodiesSubscriber());
+    public void loadMelodies() { //int limit, int offset
+        if (isLoading)
+            return;
+        subscribe(api.getSongsList(20, currentPage), getMelodiesSubscriber());
     }
 
     private NetworkSubscriber<ResponseMelody> getMelodiesSubscriber() {
         return new NetworkSubscriber<ResponseMelody>(getView(), this) {
+
+            @Override
+            public void onStart() {
+                isLoading = true;
+            }
+
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
                 getView().displayMelodies(ResponseMelody.addDividers(responseMelody.getMelodies()));
+                isLoading = false;
+                currentPage = currentPage + 20;
             }
 
             @Override
@@ -51,6 +63,8 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> {
 
     private NetworkPtrSubscriber<ResponseMelody> updateMelodiesSubscriber() {
         return new NetworkPtrSubscriber<ResponseMelody>(getView(), this) {
+
+
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);

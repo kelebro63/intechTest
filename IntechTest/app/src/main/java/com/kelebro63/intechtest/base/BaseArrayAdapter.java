@@ -53,7 +53,7 @@ public abstract class BaseArrayAdapter<VH extends BaseViewHolder<T>, T> extends 
         notifyDataSetChanged();
     }
 
-    public final void addItems(List<T> newItems) {
+    public void addItems(List<T> newItems) {
         items.addAll(newItems);
         notifyDataSetChanged();
     }
@@ -68,5 +68,9 @@ public abstract class BaseArrayAdapter<VH extends BaseViewHolder<T>, T> extends 
 
     public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public boolean isEmpty() {
+        return items == null || items.size() == 0;
     }
 }
