@@ -81,10 +81,17 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     }
 
     @Override
-    public void displayMelodies(List<Melody> melodies) {
+    public void addMelodiesToDisplay(List<Melody> melodies) {
         adapter.addItems(melodies);
     }
 
+    @Override
+    public void setMelodiesToDisplay(List<Melody> melodies) {
+        adapter.setItems(melodies);
+        if (melodies != null && melodies.size() > 0) {
+            melodiesList.animate().alpha(1).setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+        }
+    }
 
 
     @Override
@@ -115,12 +122,14 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
     @Override
     public void onRefresh() {
-        presenter.updateMelodies(LIMIT_MELODIES, FIRST_PAGE);
+        if (!adapter.isLoading()) {
+            presenter.updateMelodies(LIMIT_MELODIES, FIRST_PAGE);
+        }
     }
 
     @Override
     public void onItemClicked(Melody item) {
-       // presenter.navigateToMelody(item);
+        // presenter.navigateToMelody(item);
     }
 
     @Override

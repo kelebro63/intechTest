@@ -47,8 +47,6 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
         Melody item = getItem(position);
         if (item == null )
             return 4;
-        if (item == null || item.getItemType() == null)
-            return 2;
         switch (item.getItemType()) {
 
             case NORMAL:
@@ -86,5 +84,10 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
         isLoading = false;
     }
 
+    @Override
+    public void setItems(List<Melody> items) {
+        super.setItems(items);
+        isLoading = false;
 
+    }
 }

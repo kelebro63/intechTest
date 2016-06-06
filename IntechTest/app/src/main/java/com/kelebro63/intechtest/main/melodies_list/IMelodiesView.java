@@ -11,7 +11,9 @@ import java.util.List;
  * Created by kelebro63 on 02.06.2016
  */
 public interface IMelodiesView extends IPtrView {
-    void displayMelodies(List<Melody> orders);
+    void addMelodiesToDisplay(List<Melody> melodies);
+
+    void setMelodiesToDisplay(List<Melody> melodies);
 
     void displaySimpleError(@StringRes int resId);
 

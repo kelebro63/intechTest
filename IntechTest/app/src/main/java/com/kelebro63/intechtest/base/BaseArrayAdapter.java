@@ -43,7 +43,7 @@ public abstract class BaseArrayAdapter<VH extends BaseViewHolder<T>, T> extends 
         return items;
     }
 
-    public final void setItems(List<T> items) {
+    public void setItems(List<T> items) {
         this.items = items;
         notifyDataSetChanged();
     }

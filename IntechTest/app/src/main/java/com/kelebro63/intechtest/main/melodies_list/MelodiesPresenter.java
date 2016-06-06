@@ -45,7 +45,7 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> {
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
-                getView().displayMelodies(ResponseMelody.addDividers(responseMelody.getMelodies()));
+                getView().addMelodiesToDisplay(ResponseMelody.addDividers(responseMelody.getMelodies()));
                 isLoading = false;
                 currentPage = currentPage + 20;
             }
@@ -57,18 +57,30 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> {
         };
     }
 
-    public void updateMelodies(int limit, int offset) {
-        subscribe(api.getSongsList(limit, offset), updateMelodiesSubscriber());
+    public void updateMelodies(int limit, int from) {
+        if (isLoading) {
+            return;
+        }
+        currentPage = from;
+        subscribe(api.getSongsList(limit, from), updateMelodiesSubscriber());
     }
 
     private NetworkPtrSubscriber<ResponseMelody> updateMelodiesSubscriber() {
         return new NetworkPtrSubscriber<ResponseMelody>(getView(), this) {
 
+            @Override
+            public void onStart() {
+                isLoading = true;
+            }
 
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
-                getView().displayMelodies(ResponseMelody.addDividers(responseMelody.getMelodies()));
+                getView().setMelodiesToDisplay(ResponseMelody.addDividers(responseMelody.getMelodies()));
+                getView().stopRefreshing();
+                isLoading = false;
+                currentPage = currentPage + 20;
+
             }
 
             @Override
