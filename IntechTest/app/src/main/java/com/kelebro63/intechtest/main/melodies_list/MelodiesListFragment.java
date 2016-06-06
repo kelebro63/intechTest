@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import com.kelebro63.intechtest.base.BaseFragment;
 import com.kelebro63.intechtest.base.OnItemClickListener;
 import com.kelebro63.intechtest.main.MainNavigator;
 import com.kelebro63.intechtest.models.Melody;
+import com.kelebro63.intechtest.widgets.DividerItemDecoration;
 
 import java.util.List;
 
@@ -59,8 +61,9 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         setHasOptionsMenu(true);
         createFragmentComponent().inject(this);
         presenter.setView(this);
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        layoutManager = new GridLayoutManager(getActivity(), 2);//LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         melodiesList.setLayoutManager(layoutManager);
+        melodiesList.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
         melodiesPtrView.setOnRefreshListener(this);
         melodiesPtrView.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.red_bright));
         adapter = new MelodiesListAdapter();
@@ -160,4 +163,5 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Override
     public void displayError(@StringRes int stringRes) {
     }
+
 }

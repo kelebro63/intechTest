@@ -37,9 +37,9 @@ public class ResponseMelody implements Serializable {
                 ArrayList<Melody> result = new ArrayList<>();
                 for (int i = 0; i < melodies.size(); i++) {
                         result.add(melodies.get(i));
-                        if (i != melodies.size() - 1) {
-                                result.add(Melody.createDivider());
-                        }
+//                        if (i != melodies.size() - 1) {
+//                                result.add(Melody.createDivider());
+//                        }
                 }
                 return result;
         }
