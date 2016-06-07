@@ -77,7 +77,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
                         ) {
                     adapter.displayLoadingFooter();//indicate loading more news by showing footer
                     melodiesList.smoothScrollToPosition(adapter.getItemCount() - 1);//smooth scroll to footer
-                    presenter.loadMelodies();//load more news
+                    presenter.loadMelodies();//load more melodies
                 }
             }
         });
@@ -112,11 +112,6 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         melodiesPtrView.setRefreshing(false);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        //inflater.inflate(R.menu., menu);
-    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -138,9 +133,15 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.:
-//                navigator.navigateTo..;
-//                return true;
+            case R.id.list:
+                if (melodiesList.getLayoutManager().getClass().getName().contains("GridLayoutManager")) {
+                    layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                } else {
+                    layoutManager = new GridLayoutManager(getActivity(), 2);
+                }
+                melodiesList.setLayoutManager(layoutManager);
+                melodiesList.setAdapter(adapter);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -162,6 +163,12 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
     @Override
     public void displayError(@StringRes int stringRes) {
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.melodies_list_menu, menu);
     }
 
 }

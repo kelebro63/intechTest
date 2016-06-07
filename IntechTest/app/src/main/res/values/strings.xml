@@ -5,4 +5,5 @@
     <string name="api.error.network">Отсуствует подключение к сети!</string>
     <string name="api.error.server">Произошла ошибка на сервере!</string>
     <string name="melodies">Мелодии</string>
+    <string name="menu.change_list">Список/Таблица</string>
 </resources>
