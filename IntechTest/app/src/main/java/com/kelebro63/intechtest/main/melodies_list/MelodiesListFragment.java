@@ -1,5 +1,6 @@
 package com.kelebro63.intechtest.main.melodies_list;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.StringRes;
@@ -45,8 +46,8 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
     private static final String KEY_LAYOUT_MANAGER_TYPE = "layoutManagerType";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
-    private static final int SPAN_COUNT = 2;
-    private static final int DATASET_COUNT = 60;
+    private static final int SPAN_COUNT_PORTRAIT = 2;
+    private static final int SPAN_COUNT_LANDSCAPE = 3;
 
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
@@ -209,7 +210,12 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType, Parcelable savedRecyclerLayoutState) {
         switch (layoutManagerType) {
             case GRID_LAYOUT_MANAGER:
-                layoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
+                if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    layoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT_PORTRAIT);
+                } else {
+                    layoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT_LANDSCAPE);
+                }
+
                 mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
                 break;
             case LINEAR_LAYOUT_MANAGER:
