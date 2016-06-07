@@ -162,7 +162,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
     @Override
     public void onItemClicked(Melody item) {
-        // presenter.navigateToMelody(item);
+         presenter.navigateToMelody(item);
     }
 
     @Override

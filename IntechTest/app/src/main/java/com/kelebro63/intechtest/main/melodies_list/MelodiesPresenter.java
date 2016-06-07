@@ -1,10 +1,13 @@
 package com.kelebro63.intechtest.main.melodies_list;
 
+import android.support.annotation.NonNull;
+
 import com.kelebro63.intechtest.api.IIntechAPI;
 import com.kelebro63.intechtest.base.BasePresenter;
 import com.kelebro63.intechtest.base.NetworkPtrSubscriber;
 import com.kelebro63.intechtest.base.NetworkSubscriber;
 import com.kelebro63.intechtest.main.MainNavigator;
+import com.kelebro63.intechtest.models.Melody;
 import com.kelebro63.intechtest.models.ResponseMelody;
 
 import java.io.Serializable;
@@ -90,5 +93,9 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
                 super.onError(throwable);
             }
         };
+    }
+
+    public void navigateToMelody(@NonNull Melody item) {
+        navigator.navigateToNewOrder(item);
     }
 }

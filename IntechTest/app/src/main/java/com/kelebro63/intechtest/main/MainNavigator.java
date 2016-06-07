@@ -1,11 +1,14 @@
 package com.kelebro63.intechtest.main;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.main.melodies_list.MelodiesListFragment;
+import com.kelebro63.intechtest.main.melody.MelodyFragment;
+import com.kelebro63.intechtest.models.Melody;
 
 import java.util.List;
 
@@ -45,11 +48,14 @@ public class MainNavigator {
 
     public void navigateToMelodiesList() {
         MelodiesListFragment melodiesListFragment = (MelodiesListFragment) fragmentManager.findFragmentByTag(TAG_LIST_MELODIES_FRAGMENT);
-
         if (melodiesListFragment == null) {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentManager.beginTransaction().replace(R.id.container, new MelodiesListFragment(), TAG_LIST_MELODIES_FRAGMENT).commit();
         }
 
+    }
+
+    public void navigateToNewOrder(@NonNull Melody melody) {
+        fragmentManager.beginTransaction().replace(R.id.container, MelodyFragment.newInstance(melody)).addToBackStack(null).commit();
     }
 }
