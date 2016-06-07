@@ -61,7 +61,8 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         setHasOptionsMenu(true);
         createFragmentComponent().inject(this);
         presenter.setView(this);
-        layoutManager = new GridLayoutManager(getActivity(), 2);//LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        initLayoutManager();
+
         melodiesList.setLayoutManager(layoutManager);
         melodiesList.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
         melodiesPtrView.setOnRefreshListener(this);
@@ -81,6 +82,19 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
                 }
             }
         });
+    }
+
+    private void initLayoutManager() {
+        if (layoutManager == null) {
+            layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        } else {
+            if (melodiesList.getLayoutManager().getClass().getName().contains("GridLayoutManager")) {
+                layoutManager = new GridLayoutManager(getActivity(), 2);
+            } else {
+                layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            }
+        }
+
     }
 
     @Override
