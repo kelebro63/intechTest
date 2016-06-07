@@ -1,6 +1,7 @@
 package com.kelebro63.intechtest.main.melodies_list;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -42,6 +43,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Inject
     MainNavigator navigator;
 
+    private static final String KEY_LAYOUT_MANAGER_TYPE = "layoutManagerType";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
     private static final int DATASET_COUNT = 60;
@@ -51,7 +53,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         LINEAR_LAYOUT_MANAGER
     }
 
-    protected LayoutManagerType mCurrentLayoutManagerType;
+    private LayoutManagerType mCurrentLayoutManagerType;
 
     private MelodiesListAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -69,7 +71,8 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setRetainInstance(true);
+        setRetainInstance(true);
+        adapter = new MelodiesListAdapter();
     }
 
     @Override
@@ -78,24 +81,22 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         setHasOptionsMenu(true);
         createFragmentComponent().inject(this);
         presenter.setView(this);
-
-        //***
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         if (savedInstanceState != null) {
             // Restore saved layout manager type.
-            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
-                    .getSerializable(KEY_LAYOUT_MANAGER);
+            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState.getSerializable(KEY_LAYOUT_MANAGER_TYPE);
+            Parcelable savedRecyclerLayoutState =  savedInstanceState.getParcelable(KEY_LAYOUT_MANAGER);
+            setRecyclerViewLayoutManager(mCurrentLayoutManagerType, savedRecyclerLayoutState);
+        } else {
+            setRecyclerViewLayoutManager(mCurrentLayoutManagerType, null);
         }
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-        //***
-       // initLayoutManager();
 
         melodiesList.setLayoutManager(layoutManager);
         melodiesList.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
         melodiesPtrView.setOnRefreshListener(this);
         melodiesPtrView.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.red_bright));
-        adapter = new MelodiesListAdapter();
+
         adapter.setOnItemClickListener(this);
         melodiesList.setAdapter(adapter);
         melodiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -110,21 +111,11 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
                 }
             }
         });
-        setRetainInstance(true);
-    }
-
-    private void initLayoutManager() {
-        if (layoutManager == null) {
-            layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        } else {
-            if ( mCurrentLayoutManagerType == LayoutManagerType.GRID_LAYOUT_MANAGER) {
-                layoutManager = new GridLayoutManager(getActivity(), 2);
-            } else {
-                layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            }
+        if (adapter.isEmpty()) {
+            presenter.loadMelodies();
         }
-
     }
+
 
     @Override
     public void addMelodiesToDisplay(List<Melody> melodies) {
@@ -199,7 +190,6 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Override
     public void onResume() {
         super.onResume();
-        presenter.loadMelodies();
     }
 
     @Override
@@ -216,15 +206,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         inflater.inflate(R.menu.melodies_list_menu, menu);
     }
 
-    public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
-        int scrollPosition = 0;
-
-        // If a layout manager has already been set, get current scroll position.
-        if (melodiesList.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) melodiesList.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-
+    public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType, Parcelable savedRecyclerLayoutState) {
         switch (layoutManagerType) {
             case GRID_LAYOUT_MANAGER:
                 layoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
@@ -240,13 +222,16 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         }
 
         melodiesList.setLayoutManager(layoutManager);
-        melodiesList.scrollToPosition(scrollPosition);
+        if (savedRecyclerLayoutState != null) {
+            melodiesList.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save currently selected layout manager.
-        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
+        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER_TYPE, mCurrentLayoutManagerType);
+        savedInstanceState.putParcelable(KEY_LAYOUT_MANAGER, melodiesList.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(savedInstanceState);
     }
 

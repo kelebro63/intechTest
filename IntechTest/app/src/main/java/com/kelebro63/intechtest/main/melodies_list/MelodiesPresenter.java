@@ -7,6 +7,8 @@ import com.kelebro63.intechtest.base.NetworkSubscriber;
 import com.kelebro63.intechtest.main.MainNavigator;
 import com.kelebro63.intechtest.models.ResponseMelody;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 import rx.Observable;
@@ -14,7 +16,7 @@ import rx.Observable;
 /**
  * Created by kelebro63 on 02.06.2016
  */
-public class MelodiesPresenter extends BasePresenter<IMelodiesView> {
+public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements Serializable {
 
     private final IIntechAPI api;
     private final MainNavigator navigator;
