@@ -15,6 +15,9 @@ import javax.inject.Inject;
  * Created by kelebro63 on 02.06.2016
  */
 public class MainNavigator {
+
+    private static final String TAG_LIST_MELODIES_FRAGMENT = "melodies_fragment";
+
     private final FragmentManager fragmentManager;
     private final BaseActivity activity;
 
@@ -41,7 +44,12 @@ public class MainNavigator {
     }
 
     public void navigateToMelodiesList() {
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentManager.beginTransaction().replace(R.id.container, new MelodiesListFragment()).commit();
+        MelodiesListFragment melodiesListFragment = (MelodiesListFragment) fragmentManager.findFragmentByTag(TAG_LIST_MELODIES_FRAGMENT);
+
+        if (melodiesListFragment == null) {
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentManager.beginTransaction().replace(R.id.container, new MelodiesListFragment(), TAG_LIST_MELODIES_FRAGMENT).commit();
+        }
+
     }
 }
