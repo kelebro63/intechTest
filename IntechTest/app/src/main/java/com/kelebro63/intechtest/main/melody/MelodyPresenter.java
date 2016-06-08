@@ -1,5 +1,7 @@
 package com.kelebro63.intechtest.main.melody;
 
+import android.media.MediaPlayer;
+
 import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.base.BasePresenter;
 import com.kelebro63.intechtest.base.NetworkInvisSubscriber;
@@ -24,10 +26,10 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
     }
 
     public void playStream(Melody melody) {
-        subscribe(createObservable(melody.getDemoUrl()), mediaPlayerSubscriber());
+        subscribe(createObservable(melody.getDemoUrl()), objectSubscriber());
     }
 
-    private NetworkInvisSubscriber<Object> mediaPlayerSubscriber() {
+    private NetworkInvisSubscriber<Object> objectSubscriber() {
         return new NetworkInvisSubscriber<Object>(getView(), this) {
             @Override
             public void onNext(Object o) {
@@ -41,6 +43,32 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
     }
 
     private Observable<Object> createObservable(String url) {
-        return RxMediaPlayer.from(url, this.activity).flatMap(player -> RxMediaPlayer.play(player));
+        return RxMediaPlayer.from(url).flatMap(player -> RxMediaPlayer.play(player));
+    }
+
+    public void pauseStream(Melody melody) {
+        subscribe(RxMediaPlayer.pause(melody.getDemoUrl()), mediaPlayerSubscriber());
+    }
+
+    private NetworkInvisSubscriber<MediaPlayer> mediaPlayerSubscriber() {
+        return new NetworkInvisSubscriber<MediaPlayer>(getView(), this) {
+            @Override
+            public void onNext(MediaPlayer player) {
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+            }
+        };
+    }
+
+    public void stopStream(Melody melody) {
+        subscribe(RxMediaPlayer.stop(melody.getDemoUrl()), mediaPlayerSubscriber());
+    }
+
+    public void cleanRxMP() {
+        RxMediaPlayer.cleanPlayer();
     }
 }

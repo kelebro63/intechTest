@@ -8,8 +8,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Pair;
 
-import com.kelebro63.intechtest.base.BaseActivity;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -17,28 +15,38 @@ import rx.Observable;
 import rx.subscriptions.Subscriptions;
 
 public class RxMediaPlayer {
-    public static Observable<MediaPlayer> from(String url, BaseActivity activity) {
-        return Observable.create(subscriber -> {
-            final MediaPlayer player = create();
-            try {
-                player.setDataSource(url);
+    private static MediaPlayer player;
+    private static int playbackPosition = 0;
+
+    public static Observable<MediaPlayer> from(String url) {
+        if (playbackPosition != 0) {
+            return restartPlay(url);
+        } else {
+            return Observable.create(subscriber -> {
+                MediaPlayer player = get(url);
                 subscriber.onNext(player);
                 subscriber.onCompleted();
-            } catch (Exception e) {
-                e.printStackTrace();
-                subscriber.onError(e);
-            }
-        });
+            });
+        }
     }
 
     public static  Observable<Pair<Integer, Integer>> play(MediaPlayer mp) {
         return prepare(mp).flatMap(RxMediaPlayer::stream);
     }
 
-    static MediaPlayer create() {
-        final MediaPlayer player = new MediaPlayer();
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        return player;
+    static MediaPlayer get(String url) {
+        if (player != null) {
+            return player;
+        } else {
+            player = new MediaPlayer();
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            try {
+                player.setDataSource(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return player;
+        }
     }
 
     static Observable<MediaPlayer> prepare(MediaPlayer mp) {
@@ -81,5 +89,61 @@ public class RxMediaPlayer {
             subscriber.onNext(mp);
             subscriber.onCompleted();
         }));
+    }
+
+    public static Observable<MediaPlayer> pause(String url) {
+        return Observable.create(subscriber -> {
+            MediaPlayer mp = get(url);
+            try {
+                if (mp.isPlaying()) {
+                    playbackPosition = mp.getCurrentPosition();
+                    mp.pause();
+                }
+            }catch (IllegalStateException e) {
+                e.printStackTrace();
+
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private static Observable<MediaPlayer> restartPlay(String url) {
+        return Observable.create(subscriber -> {
+            MediaPlayer mp = get(url);
+            try {
+                if (!mp.isPlaying()) {
+                    mp.seekTo(playbackPosition);
+                    mp.start();
+                }
+            }catch (IllegalStateException e) {
+                e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static Observable<MediaPlayer> stop(String url) {
+        return Observable.create(subscriber -> {
+            MediaPlayer mp = get(url);
+            try {
+                if (mp.isPlaying()) {
+                    playbackPosition = 0;
+                    mp.stop();
+                    player = null;
+                }
+            }catch (IllegalStateException e) {
+                e.printStackTrace();
+
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static  void cleanPlayer() {
+        player = null;
+        playbackPosition = 0;
     }
 }

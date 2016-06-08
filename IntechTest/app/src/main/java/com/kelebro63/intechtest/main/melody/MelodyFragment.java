@@ -27,6 +27,14 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Bind(R.id.play)
     Button btnPlay;
 
+    @Nullable
+    @Bind(R.id.pause)
+    Button btnPause;
+
+    @Nullable
+    @Bind(R.id.stop)
+    Button btnStop;
+
     public static MelodyFragment newInstance(Melody melody) {
         MelodyFragment fragment = new MelodyFragment();
         Bundle bundle = new Bundle();
@@ -75,5 +83,23 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @OnClick(R.id.play)
     void play() {
         presenter.playStream(getCachedMelody());
+    }
+
+    @Nullable
+    @OnClick(R.id.pause)
+    void pause() {
+        presenter.pauseStream(getCachedMelody());
+    }
+
+    @Nullable
+    @OnClick(R.id.stop)
+    void stop() {
+        presenter.stopStream(getCachedMelody());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.cleanRxMP();
     }
 }
