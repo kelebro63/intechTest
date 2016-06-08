@@ -88,13 +88,13 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Nullable
     @OnClick(R.id.pause)
     void pause() {
-        presenter.pauseStream(getCachedMelody());
+        presenter.pauseStream();
     }
 
     @Nullable
     @OnClick(R.id.stop)
     void stop() {
-        presenter.stopStream(getCachedMelody());
+        presenter.stopStream();
     }
 
     @Override

@@ -46,8 +46,8 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
         return RxMediaPlayer.from(url).flatMap(player -> RxMediaPlayer.play(player));
     }
 
-    public void pauseStream(Melody melody) {
-        subscribe(RxMediaPlayer.pause(melody.getDemoUrl()), mediaPlayerSubscriber());
+    public void pauseStream() {
+        subscribe(RxMediaPlayer.pause(), mediaPlayerSubscriber());
     }
 
     private NetworkInvisSubscriber<MediaPlayer> mediaPlayerSubscriber() {
@@ -64,8 +64,8 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
         };
     }
 
-    public void stopStream(Melody melody) {
-        subscribe(RxMediaPlayer.stop(melody.getDemoUrl()), mediaPlayerSubscriber());
+    public void stopStream() {
+        subscribe(RxMediaPlayer.stop(), mediaPlayerSubscriber());
     }
 
     public void cleanRxMP() {
