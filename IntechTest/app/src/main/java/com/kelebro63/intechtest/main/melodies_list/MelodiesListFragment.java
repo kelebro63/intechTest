@@ -236,9 +236,13 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save currently selected layout manager.
-        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER_TYPE, mCurrentLayoutManagerType);
-        savedInstanceState.putParcelable(KEY_LAYOUT_MANAGER, melodiesList.getLayoutManager().onSaveInstanceState());
-        super.onSaveInstanceState(savedInstanceState);
+        try {
+            savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER_TYPE, mCurrentLayoutManagerType);
+            if (melodiesList != null)  savedInstanceState.putParcelable(KEY_LAYOUT_MANAGER, melodiesList.getLayoutManager().onSaveInstanceState());
+            super.onSaveInstanceState(savedInstanceState);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -3,6 +3,7 @@ package com.kelebro63.intechtest.di.components;
 import com.kelebro63.intechtest.di.modules.FragmentModule;
 import com.kelebro63.intechtest.di.qualifiers.PerFragment;
 import com.kelebro63.intechtest.main.melodies_list.MelodiesListFragment;
+import com.kelebro63.intechtest.main.melody.MelodyFragment;
 
 import dagger.Component;
 
@@ -15,4 +16,5 @@ public interface FragmentComponent {
 
     void inject(MelodiesListFragment fragment);
 
+    void inject(MelodyFragment fragment);
 }

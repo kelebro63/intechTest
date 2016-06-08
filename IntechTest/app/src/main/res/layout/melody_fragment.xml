@@ -2,26 +2,16 @@
     android:id="@+id/orderPtrView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app.default_margins"
-            android:layout_marginStart="@dimen/app.default_margins"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/app.default_margins">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Small Text"
-                android:id="@+id/textView" />
+                android:text="play"
+                android:id="@+id/play"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
-    </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
