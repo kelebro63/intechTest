@@ -12,4 +12,8 @@ public interface IMelodyView extends IPtrView {
     void showPlayButton();
 
     void showPauseButton();
+
+    void setDurationPlayerProgress(int max);
+
+    void setCurrentPlayerProgress(int progress);
 }

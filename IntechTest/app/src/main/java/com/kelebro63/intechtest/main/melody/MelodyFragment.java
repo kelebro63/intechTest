@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseFragment;
@@ -20,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by Bistrov Alexey on 07.06.2016.
  */
-public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, IMelodyView{
+public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, IMelodyView, SeekBar.OnSeekBarChangeListener{
 
     @Inject
     protected MelodyPresenter presenter;
@@ -35,6 +36,10 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Nullable
     @Bind(R.id.stop)
     ImageButton btnStop;
+
+    @Nullable
+    @Bind(R.id.seekBar)
+    SeekBar seekBar;
 
     public static MelodyFragment newInstance(Melody melody) {
         MelodyFragment fragment = new MelodyFragment();
@@ -55,6 +60,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         createFragmentComponent().inject(this);
         presenter.setView(this);
         Picasso.with(getContext()).load(getCachedMelody().getPicUrl()).into(cover);
+        seekBar.setOnSeekBarChangeListener(this);
     }
 
     @Override
@@ -79,6 +85,16 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void showPauseButton() {
         btnPlayPause.setImageResource(R.drawable.ic_action_pause);
+    }
+
+    @Override
+    public void setDurationPlayerProgress(int max) {
+        seekBar.setMax(max);
+    }
+
+    @Override
+    public void setCurrentPlayerProgress(int progress) {
+        seekBar.setProgress(progress);
     }
 
     @Override
@@ -108,5 +124,20 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     public void onDestroy() {
         super.onDestroy();
         presenter.cleanRxMP();
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }

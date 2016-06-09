@@ -81,6 +81,7 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
         return new NetworkInvisSubscriber<MediaPlayer>(getView(), this) {
             @Override
             public void onNext(MediaPlayer player) {
+                getView().setDurationPlayerProgress(player.getDuration());
                 if (player.isPlaying()) {
                     pauseStream();
                     getView().showPlayButton();
