@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.kelebro63.intechtest.R;
@@ -30,15 +30,11 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Nullable
     @Bind(R.id.play)
-    Button btnPlay;
-
-    @Nullable
-    @Bind(R.id.pause)
-    Button btnPause;
+    ImageButton btnPlayPause;
 
     @Nullable
     @Bind(R.id.stop)
-    Button btnStop;
+    ImageButton btnStop;
 
     public static MelodyFragment newInstance(Melody melody) {
         MelodyFragment fragment = new MelodyFragment();
@@ -91,11 +87,6 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         presenter.playPauseStream(getCachedMelody());
     }
 
-    @Nullable
-    @OnClick(R.id.pause)
-    void pause() {
-        presenter.pauseStream();
-    }
 
     @Nullable
     @OnClick(R.id.stop)

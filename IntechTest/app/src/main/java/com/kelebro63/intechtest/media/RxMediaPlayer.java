@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.subscriptions.Subscriptions;
 
-public class RxMediaPlayer {
+public class RxMediaPlayer { //to do this class singltone in future or provide in DI
     private static MediaPlayer player;
     private static int playbackPosition = 0;
 
