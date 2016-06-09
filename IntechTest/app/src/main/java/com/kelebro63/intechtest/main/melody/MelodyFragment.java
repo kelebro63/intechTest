@@ -5,10 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseFragment;
 import com.kelebro63.intechtest.models.Melody;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -22,6 +24,9 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Inject
     protected MelodyPresenter presenter;
+
+    @Bind(R.id.cover)
+    ImageView cover;
 
     @Nullable
     @Bind(R.id.play)
@@ -53,6 +58,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         super.onViewCreated(view, savedInstanceState);
         createFragmentComponent().inject(this);
         presenter.setView(this);
+        Picasso.with(getContext()).load(getCachedMelody().getPicUrl()).into(cover);
     }
 
     @Override

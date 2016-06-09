@@ -8,7 +8,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/red.bright" />
+        android:background="@color/red.bright"
+        app:subtitleTextAppearance="@style/ToolbarSubtitleAppearance"
+        app:titleTextAppearance="@style/ToolbarTitleAppearance"/>
 
     <include
         layout="@layout/shadow"
