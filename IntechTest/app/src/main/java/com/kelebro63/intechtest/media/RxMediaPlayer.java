@@ -141,6 +141,7 @@ public class RxMediaPlayer { //to do this class singltone in future or provide i
                     playbackPosition = 0;
                     mp.stop();
                     player = null;
+                    subscriber.unsubscribe();
                 }
             }catch (IllegalStateException e) {
                 e.printStackTrace();

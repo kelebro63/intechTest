@@ -1,6 +1,8 @@
 package com.kelebro63.intechtest.main.melody;
 
 import android.media.MediaPlayer;
+import android.util.Log;
+import android.util.Pair;
 
 import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.base.BasePresenter;
@@ -29,10 +31,14 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
         subscribe(createObservable(melody.getDemoUrl()), objectSubscriber());
     }
 
-    private NetworkInvisSubscriber<Object> objectSubscriber() {
-        return new NetworkInvisSubscriber<Object>(getView(), this) {
+    private NetworkInvisSubscriber<Pair<Integer, Integer>> objectSubscriber() {
+        return new NetworkInvisSubscriber<Pair<Integer, Integer>>(getView(), this) {
+
             @Override
-            public void onNext(Object o) {
+            public void onNext(Pair<Integer, Integer> pair) {
+                Log.d("debug", pair.toString());
+                getView().setDurationPlayerProgress(pair.second);
+                getView().setCurrentPlayerProgress(pair.first);
             }
 
             @Override
@@ -42,7 +48,7 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
         };
     }
 
-    private Observable<Object> createObservable(String url) {
+    private Observable<Pair<Integer, Integer>> createObservable(String url) {
         return RxMediaPlayer.from(url).flatMap(player -> RxMediaPlayer.play(player));
     }
 
