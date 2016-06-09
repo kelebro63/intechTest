@@ -8,4 +8,8 @@ import com.kelebro63.intechtest.models.Melody;
  */
 public interface IMelodyView extends IPtrView {
     void displayOrder(Melody melody);
+
+    void showPlayButton();
+
+    void showPauseButton();
 }

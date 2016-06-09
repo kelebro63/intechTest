@@ -72,6 +72,16 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
     @Override
+    public void showPlayButton() {
+        btnPlayPause.setImageResource(R.drawable.ic_action_play);
+    }
+
+    @Override
+    public void showPauseButton() {
+        btnPlayPause.setImageResource(R.drawable.ic_action_pause);
+    }
+
+    @Override
     public void stopRefreshing() {
 
     }

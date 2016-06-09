@@ -66,6 +66,7 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
 
     public void stopStream() {
         subscribe(RxMediaPlayer.stop(), mediaPlayerSubscriber());
+        getView().showPlayButton();
     }
 
     public void cleanRxMP() {
@@ -82,8 +83,10 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
             public void onNext(MediaPlayer player) {
                 if (player.isPlaying()) {
                     pauseStream();
+                    getView().showPlayButton();
                 } else {
                     playStream(melody);
+                    getView().showPauseButton();
                 }
             }
 

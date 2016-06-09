@@ -5,6 +5,7 @@
         <item name="android:textViewStyle">@style/TextView.Default</item>
         <item name="colorAccent">@color/red.bright</item>
         <item name="alertDialogTheme">@style/DefaultDialog</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
 
     <style name="DefaultDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
