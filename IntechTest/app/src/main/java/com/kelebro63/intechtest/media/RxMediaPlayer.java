@@ -36,6 +36,14 @@ public class RxMediaPlayer {
         }
     }
 
+    public static Observable<MediaPlayer> getPlayerObservable() {
+        return Observable.create(subscriber -> {
+            MediaPlayer player = get();
+            subscriber.onNext(player);
+            subscriber.onCompleted();
+        });
+    }
+
     public static  Observable<Pair<Integer, Integer>> play(MediaPlayer mp) {
         return prepare(mp).flatMap(RxMediaPlayer::stream);
     }

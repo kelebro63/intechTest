@@ -71,4 +71,26 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
     public void cleanRxMP() {
         RxMediaPlayer.cleanPlayer();
     }
+
+    public void playPauseStream(Melody melody) {
+        subscribe(RxMediaPlayer.getPlayerObservable(), getPlayerSubscriber(melody));
+    }
+
+    private NetworkInvisSubscriber<MediaPlayer> getPlayerSubscriber(Melody melody) {
+        return new NetworkInvisSubscriber<MediaPlayer>(getView(), this) {
+            @Override
+            public void onNext(MediaPlayer player) {
+                if (player.isPlaying()) {
+                    pauseStream();
+                } else {
+                    playStream(melody);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+            }
+        };
+    }
 }
