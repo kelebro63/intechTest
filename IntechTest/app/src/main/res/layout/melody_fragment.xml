@@ -39,14 +39,14 @@
             android:background="@android:color/transparent"/>
     </LinearLayout>
 
-    <SeekBar
+    <!--<SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
         android:layout_above="@+id/linearLayout"
         android:layout_centerHorizontal="true"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"/>
+        android:paddingRight="10dp"/>-->
 
 
 </RelativeLayout>

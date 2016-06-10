@@ -37,9 +37,9 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Bind(R.id.stop)
     ImageButton btnStop;
 
-    @Nullable
-    @Bind(R.id.seekBar)
-    SeekBar seekBar;
+//    @Nullable
+//    @Bind(R.id.seekBar)
+//    SeekBar seekBar;
 
     public static MelodyFragment newInstance(Melody melody) {
         MelodyFragment fragment = new MelodyFragment();
@@ -60,7 +60,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         createFragmentComponent().inject(this);
         presenter.setView(this);
         Picasso.with(getContext()).load(getCachedMelody().getPicUrl()).into(cover);
-        seekBar.setOnSeekBarChangeListener(this);
+     //   seekBar.setOnSeekBarChangeListener(this);
     }
 
     @Override
@@ -89,12 +89,12 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void setDurationPlayerProgress(int max) {
-        seekBar.setMax(max);
+    //    seekBar.setMax(max);
     }
 
     @Override
     public void setCurrentPlayerProgress(int progress) {
-        seekBar.setProgress(progress);
+    //    seekBar.setProgress(progress);
     }
 
     @Override
