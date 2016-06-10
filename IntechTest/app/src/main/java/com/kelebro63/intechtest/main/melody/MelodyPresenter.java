@@ -1,14 +1,11 @@
 package com.kelebro63.intechtest.main.melody;
 
-import android.media.MediaPlayer;
-import android.util.Log;
-import android.util.Pair;
-
 import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.base.BasePresenter;
-import com.kelebro63.intechtest.base.NetworkInvisSubscriber;
-import com.kelebro63.intechtest.media.RxMediaPlayer;
+import com.kelebro63.intechtest.media.Player;
 import com.kelebro63.intechtest.models.Melody;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -27,80 +24,34 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
         this.activity = activity;
     }
 
-    public void playStream(Melody melody) {
-        subscribe(createObservable(melody.getDemoUrl()), objectSubscriber());
-    }
-
-    private NetworkInvisSubscriber<Pair<Integer, Integer>> objectSubscriber() {
-        return new NetworkInvisSubscriber<Pair<Integer, Integer>>(getView(), this) {
-
-            @Override
-            public void onNext(Pair<Integer, Integer> pair) {
-                Log.d("debug", pair.toString());
-                getView().setDurationPlayerProgress(pair.second);
-                getView().setCurrentPlayerProgress(pair.first);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-            }
-        };
-    }
-
-    private Observable<Pair<Integer, Integer>> createObservable(String url) {
-        return RxMediaPlayer.from(url).flatMap(player -> RxMediaPlayer.play(player));
+    public void playStream(Melody melody) throws IOException {
+        Player.getInstanse(this.activity).setSource(melody.getDemoUrl());
+        Player.getInstanse(this.activity).start();
     }
 
     public void pauseStream() {
-        subscribe(RxMediaPlayer.pause(), mediaPlayerSubscriber());
-    }
 
-    private NetworkInvisSubscriber<MediaPlayer> mediaPlayerSubscriber() {
-        return new NetworkInvisSubscriber<MediaPlayer>(getView(), this) {
-            @Override
-            public void onNext(MediaPlayer player) {
-
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-            }
-        };
     }
 
     public void stopStream() {
-        subscribe(RxMediaPlayer.stop(), mediaPlayerSubscriber());
-        getView().showPlayButton();
-    }
-
-    public void cleanRxMP() {
-        RxMediaPlayer.cleanPlayer();
+        Player player = Player.getInstanse(this.activity);
+        if (player.mediaPlayer.isPlaying()) {
+            player.mediaPlayer.stop();
+            getView().showPlayButton();
+        }
     }
 
     public void playPauseStream(Melody melody) {
-        subscribe(RxMediaPlayer.getPlayerObservable(), getPlayerSubscriber(melody));
+        Player player = Player.getInstanse(this.activity);
+        if (player.mediaPlayer.isPlaying()) {
+            player.pause();
+            getView().showPlayButton();
+        } else {
+            player.setSource(melody.getDemoUrl());
+            player.start();
+            getView().showPauseButton();
+        }
     }
 
-    private NetworkInvisSubscriber<MediaPlayer> getPlayerSubscriber(Melody melody) {
-        return new NetworkInvisSubscriber<MediaPlayer>(getView(), this) {
-            @Override
-            public void onNext(MediaPlayer player) {
-                getView().setDurationPlayerProgress(player.getDuration());
-                if (player.isPlaying()) {
-                    pauseStream();
-                    getView().showPlayButton();
-                } else {
-                    playStream(melody);
-                    getView().showPauseButton();
-                }
-            }
 
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-            }
-        };
-    }
 }

@@ -109,7 +109,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Nullable
     @OnClick(R.id.play)
-    void play() {
+    void play(){
         presenter.playPauseStream(getCachedMelody());
     }
 
@@ -123,7 +123,6 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.cleanRxMP();
     }
 
     @Override
