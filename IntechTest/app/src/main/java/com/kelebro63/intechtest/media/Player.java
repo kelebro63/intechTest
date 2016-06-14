@@ -13,6 +13,7 @@ public class Player {
 
     private static Player instanse;
     public MediaPlayer mediaPlayer;
+    public int playbackPosition = -1;
 
     public Player(Context context) {
         mediaPlayer = new MediaPlayer();
@@ -26,10 +27,19 @@ public class Player {
         return instanse;
     }
 
-    public void start() {
+    public void start(String demoUrl) {
         try {
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            if (playbackPosition == -1) {
+                setSource(demoUrl);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } else if (playbackPosition == 0) {
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } else {
+                mediaPlayer.seekTo(playbackPosition);
+                mediaPlayer.start();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,11 +47,13 @@ public class Player {
     }
 
     public void stop() {
-
+        playbackPosition = 0;
+        mediaPlayer.stop();
     }
 
     public void pause() {
-
+        playbackPosition = mediaPlayer.getCurrentPosition();
+        mediaPlayer.pause();
     }
 
     public void setSource(String url){
@@ -50,5 +62,13 @@ public class Player {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public  void reset(Context context) {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
+        playbackPosition = 0;
+        instanse = new Player(context);
     }
 }

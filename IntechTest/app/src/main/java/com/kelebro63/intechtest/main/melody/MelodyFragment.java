@@ -61,6 +61,11 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         presenter.setView(this);
         Picasso.with(getContext()).load(getCachedMelody().getPicUrl()).into(cover);
         seekBar.setOnSeekBarChangeListener(this);
+        initViews();
+    }
+
+    private void initViews() {
+        presenter.determinateShowButtons();
     }
 
     @Override
@@ -120,8 +125,18 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         presenter.stopStream();
     }
 
+
+    @Override
+    public void onPause() {
+        //presenter.stopStream();
+        super.onPause();
+    }
+
     @Override
     public void onDestroy() {
+        if (!getActivity().isChangingConfigurations()) {
+            presenter.clearPlayer();
+        }
         super.onDestroy();
     }
 
@@ -139,4 +154,6 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
+
+
 }

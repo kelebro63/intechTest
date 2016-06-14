@@ -26,17 +26,21 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
 
     public void playStream(Melody melody) throws IOException {
         Player.getInstanse(this.activity).setSource(melody.getDemoUrl());
-        Player.getInstanse(this.activity).start();
+        Player.getInstanse(this.activity).start(melody.getDemoUrl());
     }
 
     public void pauseStream() {
-
+        Player player = Player.getInstanse(this.activity);
+        if (player.mediaPlayer.isPlaying()) {
+            player.pause();
+            getView().showPlayButton();
+        }
     }
 
     public void stopStream() {
         Player player = Player.getInstanse(this.activity);
-        if (player.mediaPlayer.isPlaying()) {
-            player.mediaPlayer.stop();
+            if (player.mediaPlayer.isPlaying()) {
+            player.stop();
             getView().showPlayButton();
         }
     }
@@ -47,11 +51,23 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
             player.pause();
             getView().showPlayButton();
         } else {
-            player.setSource(melody.getDemoUrl());
-            player.start();
+            player.start(melody.getDemoUrl());
             getView().showPauseButton();
         }
     }
 
+    public void determinateShowButtons() {
+        Player player = Player.getInstanse(this.activity);
+        if (player.mediaPlayer.isPlaying()) {
+            getView().showPauseButton();
+        } else {
+            getView().showPlayButton();
+        }
+    }
+
+    public void clearPlayer() {
+        Player player = Player.getInstanse(this.activity);
+        player.reset(this.activity);
+    }
 
 }
