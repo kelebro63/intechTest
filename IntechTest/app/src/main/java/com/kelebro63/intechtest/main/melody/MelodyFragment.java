@@ -77,19 +77,24 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         return (Melody) getArguments().getSerializable("melody");
     }
 
+
     @Override
-    public void displayOrder(Melody melody) {
+    public void displayMelody(Melody melody) {
 
     }
 
     @Override
     public void showPlayButton() {
-        btnPlayPause.setImageResource(R.drawable.ic_action_play);
+        if (btnPlayPause != null) {
+            btnPlayPause.setImageResource(R.drawable.ic_action_play);
+        }
     }
 
     @Override
     public void showPauseButton() {
-        btnPlayPause.setImageResource(R.drawable.ic_action_pause);
+        if (btnPlayPause != null) {
+            btnPlayPause.setImageResource(R.drawable.ic_action_pause);
+        }
     }
 
     @Override
@@ -99,7 +104,9 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void setCurrentPlayerProgress(int progress) {
-        seekBar.setProgress(progress);
+        if (seekBar != null) {
+            seekBar.setProgress(progress);
+        }
     }
 
     @Override
@@ -128,7 +135,6 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onPause() {
-        //presenter.stopStream();
         super.onPause();
     }
 

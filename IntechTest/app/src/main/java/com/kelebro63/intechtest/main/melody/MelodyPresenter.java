@@ -95,6 +95,7 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
                 super.onCompleted();
                 getView().showPlayButton();
                 clearPlayer();
+                getView().setCurrentPlayerProgress(0);
             }
 
             @Override

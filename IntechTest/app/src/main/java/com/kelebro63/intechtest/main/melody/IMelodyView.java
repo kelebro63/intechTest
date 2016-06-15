@@ -7,7 +7,7 @@ import com.kelebro63.intechtest.models.Melody;
  * reated by kelebro63 on 07.06.2016
  */
 public interface IMelodyView extends IPtrView {
-    void displayOrder(Melody melody);
+    void displayMelody(Melody melody);
 
     void showPlayButton();
 
@@ -16,4 +16,5 @@ public interface IMelodyView extends IPtrView {
     void setDurationPlayerProgress(int max);
 
     void setCurrentPlayerProgress(int progress);
+
 }
