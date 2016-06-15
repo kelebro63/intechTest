@@ -73,7 +73,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     protected String getTitle() {
-        return null;
+        return getCachedMelody().getTitle();
     }
 
     protected Melody getCachedMelody() {
@@ -151,8 +151,10 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if(fromUser) {
+            presenter.setProgressPlayer(progress);
+        }
     }
 
     @Override

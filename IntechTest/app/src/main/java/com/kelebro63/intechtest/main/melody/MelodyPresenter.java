@@ -103,4 +103,9 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
             }
         };
     }
+
+    public void setProgressPlayer(int progress) {
+        PlayerManager player = PlayerManager.getInstanse(this.activity);
+        player.mediaPlayer.seekTo(progress);
+    }
 }
