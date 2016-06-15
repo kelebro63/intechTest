@@ -1,8 +1,10 @@
 package com.kelebro63.intechtest.main.melody;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,9 +39,9 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Bind(R.id.stop)
     ImageButton btnStop;
 
-//    @Nullable
-//    @Bind(R.id.seekBar)
-//    SeekBar seekBar;
+    @Nullable
+    @Bind(R.id.seekBar)
+    SeekBar seekBar;
 
     public static MelodyFragment newInstance(Melody melody) {
         MelodyFragment fragment = new MelodyFragment();
@@ -57,10 +59,16 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d("debug","onViewCreated");
         createFragmentComponent().inject(this);
         presenter.setView(this);
         Picasso.with(getContext()).load(getCachedMelody().getPicUrl()).into(cover);
-     //   seekBar.setOnSeekBarChangeListener(this);
+        seekBar.setOnSeekBarChangeListener(this);
+        initViews();
+    }
+
+    private void initViews() {
+        presenter.determinateShowButtons();
     }
 
     @Override
@@ -72,29 +80,36 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         return (Melody) getArguments().getSerializable("melody");
     }
 
+
     @Override
-    public void displayOrder(Melody melody) {
+    public void displayMelody(Melody melody) {
 
     }
 
     @Override
     public void showPlayButton() {
-        btnPlayPause.setImageResource(R.drawable.ic_action_play);
+        if (btnPlayPause != null) {
+            btnPlayPause.setImageResource(R.drawable.ic_action_play);
+        }
     }
 
     @Override
     public void showPauseButton() {
-        btnPlayPause.setImageResource(R.drawable.ic_action_pause);
+        if (btnPlayPause != null) {
+            btnPlayPause.setImageResource(R.drawable.ic_action_pause);
+        }
     }
 
     @Override
     public void setDurationPlayerProgress(int max) {
-    //    seekBar.setMax(max);
+        seekBar.setMax(max);
     }
 
     @Override
     public void setCurrentPlayerProgress(int progress) {
-    //    seekBar.setProgress(progress);
+        if (seekBar != null) {
+            seekBar.setProgress(progress);
+        }
     }
 
     @Override
@@ -109,7 +124,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Nullable
     @OnClick(R.id.play)
-    void play() {
+    void play(){
         presenter.playPauseStream(getCachedMelody());
     }
 
@@ -120,10 +135,19 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         presenter.stopStream();
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
     @Override
     public void onDestroy() {
+        Log.d("debug","onDestroy");
+        if (!getActivity().isChangingConfigurations()) {
+            presenter.clearPlayer();
+        }
         super.onDestroy();
-        presenter.cleanRxMP();
     }
 
     @Override
@@ -138,6 +162,13 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        Log.d("debug","onConfigurationChanged");
+        super.onConfigurationChanged(newConfig);
 
     }
 }
