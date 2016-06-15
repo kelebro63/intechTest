@@ -55,7 +55,7 @@ public class MainNavigator {
 
     }
 
-    public void navigateToNewOrder(@NonNull Melody melody) {
+    public void navigateToMelody(@NonNull Melody melody) {
         fragmentManager.beginTransaction().replace(R.id.container, MelodyFragment.newInstance(melody)).addToBackStack(null).commit();
     }
 }

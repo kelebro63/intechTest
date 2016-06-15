@@ -84,7 +84,9 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         setHasOptionsMenu(true);
 
         presenter.setView(this);
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+        if (mCurrentLayoutManagerType == null) {
+            mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+        }
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 //        if (savedInstanceState != null) {
 //            // Restore saved layout manager type.
@@ -92,7 +94,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 //            Parcelable savedRecyclerLayoutState =  savedInstanceState.getParcelable(KEY_LAYOUT_MANAGER);
 //            setRecyclerViewLayoutManager(mCurrentLayoutManagerType, savedRecyclerLayoutState);
 //        } else {
-                setRecyclerViewLayoutManager(mCurrentLayoutManagerType, null, layoutManager.findFirstVisibleItemPosition());
+        setRecyclerViewLayoutManager(mCurrentLayoutManagerType, null, layoutManager.findFirstVisibleItemPosition());
 //        }
 
         melodiesList.setLayoutManager(layoutManager);
@@ -164,13 +166,14 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
     @Override
     public void onItemClicked(Melody item) {
-         presenter.navigateToMelody(item);
+        presenter.navigateToMelody(item);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.list:
+                int position = layoutManager.findFirstVisibleItemPosition();
                 if ( mCurrentLayoutManagerType == LayoutManagerType.GRID_LAYOUT_MANAGER) {
                     layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                     mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
@@ -179,6 +182,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
                     mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
                 }
                 melodiesList.setLayoutManager(layoutManager);
+                layoutManager.scrollToPosition(position);
                 melodiesList.setAdapter(adapter);
                 return true;
         }

@@ -96,6 +96,6 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
     }
 
     public void navigateToMelody(@NonNull Melody item) {
-        navigator.navigateToNewOrder(item);
+        navigator.navigateToMelody(item);
     }
 }
