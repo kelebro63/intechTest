@@ -1,8 +1,12 @@
 package com.kelebro63.intechtest.main.melody;
 
+import android.util.Log;
+import android.util.Pair;
+
 import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.base.BasePresenter;
-import com.kelebro63.intechtest.media.Player;
+import com.kelebro63.intechtest.base.NetworkInvisSubscriber;
+import com.kelebro63.intechtest.media.PlayerManager;
 import com.kelebro63.intechtest.models.Melody;
 
 import java.io.IOException;
@@ -25,12 +29,12 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
     }
 
     public void playStream(Melody melody) throws IOException {
-        Player.getInstanse(this.activity).setSource(melody.getDemoUrl());
-        Player.getInstanse(this.activity).start(melody.getDemoUrl());
+        PlayerManager.getInstanse(this.activity).setSource(melody.getDemoUrl());
+        PlayerManager.getInstanse(this.activity).start(melody.getDemoUrl());
     }
 
     public void pauseStream() {
-        Player player = Player.getInstanse(this.activity);
+        PlayerManager player = PlayerManager.getInstanse(this.activity);
         if (player.mediaPlayer.isPlaying()) {
             player.pause();
             getView().showPlayButton();
@@ -38,7 +42,7 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
     }
 
     public void stopStream() {
-        Player player = Player.getInstanse(this.activity);
+        PlayerManager player = PlayerManager.getInstanse(this.activity);
             if (player.mediaPlayer.isPlaying()) {
             player.stop();
             getView().showPlayButton();
@@ -46,18 +50,19 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
     }
 
     public void playPauseStream(Melody melody) {
-        Player player = Player.getInstanse(this.activity);
+        PlayerManager player = PlayerManager.getInstanse(this.activity);
         if (player.mediaPlayer.isPlaying()) {
             player.pause();
             getView().showPlayButton();
         } else {
             player.start(melody.getDemoUrl());
+            getPlaybackPosition();
             getView().showPauseButton();
         }
     }
 
     public void determinateShowButtons() {
-        Player player = Player.getInstanse(this.activity);
+        PlayerManager player = PlayerManager.getInstanse(this.activity);
         if (player.mediaPlayer.isPlaying()) {
             getView().showPauseButton();
         } else {
@@ -66,8 +71,35 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
     }
 
     public void clearPlayer() {
-        Player player = Player.getInstanse(this.activity);
+        PlayerManager player = PlayerManager.getInstanse(this.activity);
         player.reset(this.activity);
     }
 
+    public void getPlaybackPosition() {
+        PlayerManager player = PlayerManager.getInstanse(this.activity);
+        subscribe(player.stream(), getPositionSubscriber());
+    }
+
+    private NetworkInvisSubscriber<Pair<Integer, Integer>> getPositionSubscriber() {
+        return new NetworkInvisSubscriber<Pair<Integer, Integer>>(getView(), this) {
+            @Override
+            public void onNext(Pair<Integer, Integer> pair) {
+                super.onNext(pair);
+                Log.d("debug", "pair = " + pair.first + ", " + pair.second);
+                getView().setDurationPlayerProgress(pair.second);
+                getView().setCurrentPlayerProgress(pair.first);
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+                getView().showPlayButton();
+                clearPlayer();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+            }
+        };
+    }
 }

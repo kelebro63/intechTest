@@ -72,7 +72,7 @@ public class RxMediaPlayer { //to do this class singltone in future or provide i
         });
     }
 
-    static Observable<Pair<Integer, Integer>> stream( MediaPlayer mp) {
+    static Observable<Pair<Integer, Integer>> stream(MediaPlayer mp) {
         return Observable.create(subscriber -> {
             subscriber.add(Subscriptions.create(() -> {
                 if (mp.isPlaying()) {

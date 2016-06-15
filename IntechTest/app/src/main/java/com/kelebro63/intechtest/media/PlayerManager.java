@@ -3,26 +3,30 @@ package com.kelebro63.intechtest.media;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Pair;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
 
 /**
  * Created by Bistrov Alexey on 10.06.2016.
  */
-public class Player {
+public class PlayerManager {
 
-    private static Player instanse;
+    private static PlayerManager instanse;
     public MediaPlayer mediaPlayer;
     public int playbackPosition = -1;
 
-    public Player(Context context) {
+    public PlayerManager(Context context) {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
-    public static Player getInstanse(Context context) {
+    public static PlayerManager getInstanse(Context context) {
         if (instanse == null) {
-            instanse = new Player(context);
+            instanse = new PlayerManager(context);
         }
         return instanse;
     }
@@ -69,6 +73,26 @@ public class Player {
             mediaPlayer.stop();
         }
         playbackPosition = 0;
-        instanse = new Player(context);
+        instanse = new PlayerManager(context);
+    }
+
+    public Observable<Pair<Integer, Integer>> stream() {
+        return Observable.create(subscriber -> {
+            subscriber.add(ticks(mediaPlayer)
+                    .takeUntil(complete(mediaPlayer))
+                    .subscribe(subscriber));
+        });
+    }
+
+    public Observable<Pair<Integer, Integer>> ticks(MediaPlayer mp) {
+        return Observable.interval(16, TimeUnit.MILLISECONDS)
+                .map(y -> Pair.create(mp.getCurrentPosition(), mp.getDuration()));
+    }
+
+    public Observable<MediaPlayer> complete(MediaPlayer player) {
+        return Observable.create(subscriber -> player.setOnCompletionListener(mp -> {
+            subscriber.onNext(mp);
+            subscriber.onCompleted();
+        }));
     }
 }
