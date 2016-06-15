@@ -169,6 +169,5 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     public void onConfigurationChanged(Configuration newConfig) {
         Log.d("debug","onConfigurationChanged");
         super.onConfigurationChanged(newConfig);
-
     }
 }
