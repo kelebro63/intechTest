@@ -88,15 +88,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
             mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         }
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-//        if (savedInstanceState != null) {
-//            // Restore saved layout manager type.
-//            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState.getSerializable(KEY_LAYOUT_MANAGER_TYPE);
-//            Parcelable savedRecyclerLayoutState =  savedInstanceState.getParcelable(KEY_LAYOUT_MANAGER);
-//            setRecyclerViewLayoutManager(mCurrentLayoutManagerType, savedRecyclerLayoutState);
-//        } else {
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType, null, layoutManager.findFirstVisibleItemPosition());
-//        }
-
         melodiesList.setLayoutManager(layoutManager);
         melodiesList.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
         melodiesPtrView.setOnRefreshListener(this);
@@ -235,22 +227,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
         melodiesList.setLayoutManager(layoutManager);
         layoutManager.scrollToPosition(firstVisibleItemPosition);
-//        if (savedRecyclerLayoutState != null) {
-//            melodiesList.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
-//        }
     }
-
-//    @Override
-//    public void onSaveInstanceState(Bundle savedInstanceState) {
-//        // Save currently selected layout manager.
-//        try {
-//            savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER_TYPE, mCurrentLayoutManagerType);
-//            if (melodiesList != null)  savedInstanceState.putParcelable(KEY_LAYOUT_MANAGER, melodiesList.getLayoutManager().onSaveInstanceState());
-//            super.onSaveInstanceState(savedInstanceState);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
