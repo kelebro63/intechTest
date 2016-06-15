@@ -1,8 +1,10 @@
 package com.kelebro63.intechtest.main.melody;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -57,6 +59,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d("debug","onViewCreated");
         createFragmentComponent().inject(this);
         presenter.setView(this);
         Picasso.with(getContext()).load(getCachedMelody().getPicUrl()).into(cover);
@@ -140,6 +143,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onDestroy() {
+        Log.d("debug","onDestroy");
         if (!getActivity().isChangingConfigurations()) {
             presenter.clearPlayer();
         }
@@ -161,5 +165,10 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        Log.d("debug","onConfigurationChanged");
+        super.onConfigurationChanged(newConfig);
 
+    }
 }
