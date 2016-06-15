@@ -88,6 +88,7 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
                 Log.d("debug", "pair = " + pair.first + ", " + pair.second);
                 getView().setDurationPlayerProgress(pair.second);
                 getView().setCurrentPlayerProgress(pair.first);
+                getView().setTime(pair.first, pair.second);
             }
 
             @Override

@@ -17,4 +17,6 @@ public interface IMelodyView extends IPtrView {
 
     void setCurrentPlayerProgress(int progress);
 
+    void setTime(int progress, int max);
+
 }

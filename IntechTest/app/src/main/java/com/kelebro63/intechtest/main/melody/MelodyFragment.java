@@ -9,11 +9,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseFragment;
 import com.kelebro63.intechtest.models.Melody;
 import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -38,6 +41,15 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Nullable
     @Bind(R.id.stop)
     ImageButton btnStop;
+
+    @Nullable
+    @Bind(R.id.tv_progress)
+    TextView tvProgress;
+
+    @Nullable
+    @Bind(R.id.tv_left_time)
+    TextView tvLeftTime;
+
 
     @Nullable
     @Bind(R.id.seekBar)
@@ -110,6 +122,14 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         if (seekBar != null) {
             seekBar.setProgress(progress);
         }
+    }
+
+    @Override
+    public void setTime(int progress, int max) {
+        int timeRemaining = max - progress;
+        //tvLeftTime.setText(String.format("-%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+        tvLeftTime.setText(String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) max), TimeUnit.MILLISECONDS.toSeconds((long) max) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) max))));
+        tvProgress.setText(String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) progress), TimeUnit.MILLISECONDS.toSeconds((long) progress) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) progress))));
     }
 
     @Override
