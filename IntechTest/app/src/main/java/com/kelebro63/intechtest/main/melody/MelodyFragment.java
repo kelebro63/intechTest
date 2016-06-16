@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -15,8 +16,6 @@ import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseFragment;
 import com.kelebro63.intechtest.models.Melody;
 import com.squareup.picasso.Picasso;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -103,6 +102,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         if (btnPlayPause != null) {
             btnPlayPause.setImageResource(R.drawable.ic_action_play);
         }
+
     }
 
     @Override
@@ -127,9 +127,10 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void setTime(int progress, int max) {
         int timeRemaining = max - progress;
-        //tvLeftTime.setText(String.format("-%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining), TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
-        tvLeftTime.setText(String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) max), TimeUnit.MILLISECONDS.toSeconds((long) max) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) max))));
-        tvProgress.setText(String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) progress), TimeUnit.MILLISECONDS.toSeconds((long) progress) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) progress))));
+        tvProgress.setText(DateUtils.formatElapsedTime(progress / 1000));
+        tvLeftTime.setText(DateUtils.formatElapsedTime(max/1000));
+        //tvLeftTime.setText(String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) max), TimeUnit.MILLISECONDS.toSeconds((long) max) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) max))));
+        //tvProgress.setText(String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) progress), TimeUnit.MILLISECONDS.toSeconds((long) progress) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) progress))));
     }
 
     @Override
