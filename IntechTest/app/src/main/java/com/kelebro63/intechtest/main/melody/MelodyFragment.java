@@ -126,11 +126,8 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void setTime(int progress, int max) {
-        int timeRemaining = max - progress;
         tvProgress.setText(DateUtils.formatElapsedTime(progress / 1000));
         tvLeftTime.setText(DateUtils.formatElapsedTime(max/1000));
-        //tvLeftTime.setText(String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) max), TimeUnit.MILLISECONDS.toSeconds((long) max) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) max))));
-        //tvProgress.setText(String.format("%d:%d", TimeUnit.MILLISECONDS.toMinutes((long) progress), TimeUnit.MILLISECONDS.toSeconds((long) progress) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) progress))));
     }
 
     @Override
