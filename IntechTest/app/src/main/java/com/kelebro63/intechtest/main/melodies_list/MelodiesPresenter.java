@@ -1,8 +1,10 @@
 package com.kelebro63.intechtest.main.melodies_list;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.kelebro63.intechtest.api.IIntechAPI;
+import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.base.BasePresenter;
 import com.kelebro63.intechtest.base.NetworkPtrSubscriber;
 import com.kelebro63.intechtest.base.NetworkSubscriber;
@@ -25,12 +27,14 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
     private final MainNavigator navigator;
     private int currentPage = 0;
     private boolean isLoading;
+    BaseActivity activity;
 
     @Inject
-    public MelodiesPresenter(Observable.Transformer transformer, IIntechAPI api, MainNavigator navigator) {
+    public MelodiesPresenter(Observable.Transformer transformer, IIntechAPI api, MainNavigator navigator, BaseActivity activity) {
         super(transformer);
         this.api = api;
         this.navigator = navigator;
+        this.activity = activity;
     }
 
     public void loadMelodies() { //int limit, int offset
@@ -96,6 +100,9 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
     }
 
     public void navigateToMelody(@NonNull Melody item) {
-        navigator.navigateToMelody(item);
+        Uri uri = Uri.parse(item.getDemoUrl());
+        this.activity.getSupportMediaController().getTransportControls()
+                .playFromUri(uri, null);
+      //  navigator.navigateToMelody(item);
     }
 }
