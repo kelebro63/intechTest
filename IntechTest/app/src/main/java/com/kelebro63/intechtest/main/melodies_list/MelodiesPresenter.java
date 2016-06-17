@@ -57,7 +57,7 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
 
             @Override
             public void onError(Throwable throwable) {
-                super.onError(throwable);
+               // super.onError(throwable);
             }
         };
     }

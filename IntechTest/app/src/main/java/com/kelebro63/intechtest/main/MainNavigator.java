@@ -8,6 +8,7 @@ import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.main.melodies_list.MelodiesListFragment;
 import com.kelebro63.intechtest.main.melody.MelodyFragment;
+import com.kelebro63.intechtest.main.playback.PlaybackControlsFragment;
 import com.kelebro63.intechtest.models.Melody;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.inject.Inject;
 public class MainNavigator {
 
     private static final String TAG_LIST_MELODIES_FRAGMENT = "melodies_fragment";
+    private static final String TAG_PLAYBACK_FRAGMENT = "playback_fragment";
 
     private final FragmentManager fragmentManager;
     private final BaseActivity activity;
@@ -52,7 +54,26 @@ public class MainNavigator {
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentManager.beginTransaction().replace(R.id.container, new MelodiesListFragment(), TAG_LIST_MELODIES_FRAGMENT).commit();
         }
+        if (melodiesListFragment == null) {
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentManager.beginTransaction().replace(R.id.container, new MelodiesListFragment(), TAG_LIST_MELODIES_FRAGMENT).commit();
+        }
+    }
 
+    public void navigateToPlayBackFragment(boolean show) {
+        PlaybackControlsFragment controlsFragment = (PlaybackControlsFragment) fragmentManager.findFragmentById(R.id.fragment_playback_controls);
+        if (show) {
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                            R.animator.slide_in_from_bottom, R.animator.slide_out_to_bottom,
+                            R.animator.slide_in_from_bottom, R.animator.slide_out_to_bottom)
+                    .show(controlsFragment)
+                    .commit();
+        } else {
+            fragmentManager.beginTransaction()
+                    .hide(controlsFragment)
+                    .commit();
+        }
     }
 
     public void navigateToMelody(@NonNull Melody melody) {
