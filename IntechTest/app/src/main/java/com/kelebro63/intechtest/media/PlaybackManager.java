@@ -1,5 +1,6 @@
 package com.kelebro63.intechtest.media;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -102,6 +103,11 @@ public class PlaybackManager implements Playback.Callback {
         @Override
         public void onPlayFromSearch(final String query, final Bundle extras) {
 
+        }
+
+        @Override
+        public void onPlayFromUri(Uri uri, Bundle extras) {
+            super.onPlayFromUri(uri, extras);
         }
     }
 }
