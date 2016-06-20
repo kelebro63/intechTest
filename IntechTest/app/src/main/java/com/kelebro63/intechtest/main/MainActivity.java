@@ -12,6 +12,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseToolbarActivity;
+import com.kelebro63.intechtest.media.MusicService;
 import com.kelebro63.intechtest.utils.LogHelper;
 
 import javax.inject.Inject;
@@ -56,6 +57,7 @@ public class MainActivity extends BaseToolbarActivity implements MediaBrowserPro
         presenter.determineScreenToShow();
         mMediaBrowser = new MediaBrowserCompat(this,
                 new ComponentName(this, MusicService.class), mConnectionCallback, null);
+        mMediaBrowser.connect();
     }
 
     private void connectToSession(MediaSessionCompat.Token token) throws RemoteException {
@@ -108,5 +110,11 @@ public class MainActivity extends BaseToolbarActivity implements MediaBrowserPro
     @Override
     public MediaBrowserCompat getMediaBrowser() {
         return mMediaBrowser;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMediaBrowser.disconnect();
     }
 }
