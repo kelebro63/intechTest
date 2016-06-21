@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+
+import com.kelebro63.intechtest.utils.LogHelper;
 
 /**
  * Created by Bistrov Alexey on 20.06.2016.
@@ -12,9 +15,16 @@ import android.support.v4.media.session.MediaSessionCompat;
 public class PlaybackManager implements Playback.Callback {
 
     private MediaSessionCallback mMediaSessionCallback;
+    private PlaybackServiceCallback mServiceCallback;
+    private Playback mPlayback;
+    private QueueManager mQueueManager;
 
-    public PlaybackManager() {
+    public PlaybackManager(PlaybackServiceCallback serviceCallback, Playback playback, QueueManager queueManager) {
         mMediaSessionCallback = new MediaSessionCallback();
+        mServiceCallback = serviceCallback;
+        mPlayback = playback;
+        mPlayback.setCallback(this);
+        QueueManager = queueManager;
     }
 
     public MediaSessionCompat.Callback getMediaSessionCallback() {
@@ -109,5 +119,23 @@ public class PlaybackManager implements Playback.Callback {
         public void onPlayFromUri(Uri uri, Bundle extras) {
             super.onPlayFromUri(uri, extras);
         }
+
+        public void handlePlayRequest() {
+            MediaSessionCompat.QueueItem currentMusic = mQueueManager.getCurrentMusic();
+            if (currentMusic != null) {
+                mServiceCallback.onPlaybackStart();
+                mPlayback.play(currentMusic);
+            }
+        }
+    }
+
+    public interface PlaybackServiceCallback {
+        void onPlaybackStart();
+
+        void onNotificationRequired();
+
+        void onPlaybackStop();
+
+        void onPlaybackStateUpdated(PlaybackStateCompat newState);
     }
 }

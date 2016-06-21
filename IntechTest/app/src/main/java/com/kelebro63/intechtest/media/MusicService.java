@@ -22,12 +22,14 @@ package com.kelebro63.intechtest.media;
  import android.support.v4.media.MediaBrowserCompat;
  import android.support.v4.media.MediaBrowserServiceCompat;
  import android.support.v4.media.session.MediaSessionCompat;
+ import android.support.v4.media.session.PlaybackStateCompat;
 
  import com.kelebro63.intechtest.R;
 
  import java.util.List;
 
- public class MusicService extends MediaBrowserServiceCompat {
+ public class MusicService extends MediaBrowserServiceCompat implements
+         PlaybackManager.PlaybackServiceCallback{
 
 
      private MediaSessionCompat mSession;
@@ -36,7 +38,7 @@ package com.kelebro63.intechtest.media;
      @Override
      public void onCreate() {
          super.onCreate();
-         mPlaybackManager = new PlaybackManager();
+         mPlaybackManager = new PlaybackManager(this);
          // Start a new MediaSession
          mSession = new MediaSessionCompat(this, "MusicService");
          setSessionToken(mSession.getSessionToken());
@@ -57,5 +59,25 @@ package com.kelebro63.intechtest.media;
      @Override
      public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat.MediaItem>> result) {
          result.sendResult(null);
+     }
+
+     @Override
+     public void onPlaybackStart() {
+
+     }
+
+     @Override
+     public void onNotificationRequired() {
+
+     }
+
+     @Override
+     public void onPlaybackStop() {
+
+     }
+
+     @Override
+     public void onPlaybackStateUpdated(PlaybackStateCompat newState) {
+
      }
  }
