@@ -3,6 +3,7 @@ package com.kelebro63.intechtest.media;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.util.Pair;
 
 import java.io.IOException;
@@ -85,11 +86,13 @@ public class PlayerManager {
     }
 
     public Observable<Pair<Integer, Integer>> ticks(MediaPlayer mp) {
+        Log.d("debug", "ticks MP");
         return Observable.interval(16, TimeUnit.MILLISECONDS)
                 .map(y -> Pair.create(mp.getCurrentPosition(), mp.getDuration()));
     }
 
     public Observable<MediaPlayer> complete(MediaPlayer player) {
+        Log.d("debug", "complete MP");
         return Observable.create(subscriber -> player.setOnCompletionListener(mp -> {
             subscriber.onNext(mp);
             subscriber.onCompleted();
