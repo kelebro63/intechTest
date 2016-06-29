@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseArrayAdapter;
-import com.kelebro63.intechtest.models.Melody;
+import com.kelebro63.intechtest.models.Collection;
 
 import java.util.List;
 
 /**
  * Created by kelebro63 on 02.06.2016
  */
-public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, Melody> {
+public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, Collection> {
 
 
     private boolean isLoading;
@@ -42,26 +42,26 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
         throw new IllegalStateException("View type is not implemented");
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        Melody item = getItem(position);
-        if (item == null )
-            return 4;
-        switch (item.getItemType()) {
-
-            case NORMAL:
-                return 0;
-            case HEADER:
-                return 1;
-            case DIVIDER:
-                return 2;
-            case ACTIVE:
-                return 3;
-            case PROGRESS:
-                return 4;
-        }
-        return 0;
-    }
+//    @Override
+//    public int getItemViewType(int position) {
+//        Melody item = getItem(position);
+//        if (item == null )
+//            return 4;
+//        switch (item.getItemType()) {
+//
+//            case NORMAL:
+//                return 0;
+//            case HEADER:
+//                return 1;
+//            case DIVIDER:
+//                return 2;
+//            case ACTIVE:
+//                return 3;
+//            case PROGRESS:
+//                return 4;
+//        }
+//        return 0;
+//    }
 
     public void displayLoadingFooter() {
         isLoading = true;
@@ -73,10 +73,10 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
     }
 
     @Override
-    public void addItems(List<Melody> newItems) {
+    public void addItems(List<Collection> newItems) {
         if (!isEmpty()) {
             //remove the progress item
-            Melody remove = getItems().remove(getItemCount() - 1);
+            Collection remove = getItems().remove(getItemCount() - 1);
             if (remove != null) {
             }
         }
@@ -85,7 +85,7 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
     }
 
     @Override
-    public void setItems(List<Melody> items) {
+    public void setItems(List<Collection> items) {
         super.setItems(items);
         isLoading = false;
 

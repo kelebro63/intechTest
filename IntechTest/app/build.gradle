@@ -37,11 +37,11 @@ android {
     productFlavors {
         prod {
             applicationId "com.kelebro63.intechtest"
-            buildConfigField "String", "API_ENDPOINT", "\"https://api-content-beeline.intech-global.com/\""
+            buildConfigField "String", "API_ENDPOINT", "\"https://api.soundcloud.com/\""
         }
         stage {
             applicationId "com.kelebro63.intechtest.stage"
-            buildConfigField "String", "API_ENDPOINT", "\"https://api-content-beeline.intech-global.com/\""
+            buildConfigField "String", "API_ENDPOINT", "\"https://api.soundcloud.com/\""
         }
     }
     compileOptions {

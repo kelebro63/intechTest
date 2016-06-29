@@ -7,7 +7,7 @@ import com.kelebro63.intechtest.base.BasePresenter;
 import com.kelebro63.intechtest.base.NetworkPtrSubscriber;
 import com.kelebro63.intechtest.base.NetworkSubscriber;
 import com.kelebro63.intechtest.main.MainNavigator;
-import com.kelebro63.intechtest.models.Melody;
+import com.kelebro63.intechtest.models.Collection;
 import com.kelebro63.intechtest.models.ResponseMelody;
 
 import java.io.Serializable;
@@ -36,7 +36,7 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
     public void loadMelodies() { //int limit, int offset
         if (isLoading)
             return;
-        subscribe(api.getSongsList(20, currentPage), getMelodiesSubscriber());
+        subscribe(api.getSongsList("4eba3b80bf836b52beab8a357da618bf", 20, currentPage), getMelodiesSubscriber());
     }
 
     private NetworkSubscriber<ResponseMelody> getMelodiesSubscriber() {
@@ -50,9 +50,9 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
-                getView().addMelodiesToDisplay(ResponseMelody.addDividers(responseMelody.getMelodies()));
+                getView().addMelodiesToDisplay(Collection.addDividers(responseMelody.getCollection()));
                 isLoading = false;
-                currentPage = currentPage + 20;
+                currentPage = currentPage + 1;
             }
 
             @Override
@@ -67,7 +67,7 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
             return;
         }
         currentPage = from;
-        subscribe(api.getSongsList(limit, from), updateMelodiesSubscriber());
+        subscribe(api.getSongsList("4eba3b80bf836b52beab8a357da618bf", limit, from), updateMelodiesSubscriber());
     }
 
     private NetworkPtrSubscriber<ResponseMelody> updateMelodiesSubscriber() {
@@ -81,10 +81,10 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
-                getView().setMelodiesToDisplay(ResponseMelody.addDividers(responseMelody.getMelodies()));
+                getView().setMelodiesToDisplay(Collection.addDividers(responseMelody.getCollection()));
                 getView().stopRefreshing();
                 isLoading = false;
-                currentPage = currentPage + 20;
+                currentPage = currentPage + 1;
 
             }
 
@@ -95,7 +95,7 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
         };
     }
 
-    public void navigateToMelody(@NonNull Melody item) {
+    public void navigateToMelody(@NonNull Collection item) {
         navigator.navigateToMelody(item);
     }
 }

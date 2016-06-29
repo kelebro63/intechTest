@@ -7,7 +7,7 @@ import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.base.BasePresenter;
 import com.kelebro63.intechtest.base.NetworkInvisSubscriber;
 import com.kelebro63.intechtest.media.PlayerManager;
-import com.kelebro63.intechtest.models.Melody;
+import com.kelebro63.intechtest.models.Collection;
 
 import java.io.IOException;
 
@@ -28,9 +28,9 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
         this.activity = activity;
     }
 
-    public void playStream(Melody melody) throws IOException {
-        PlayerManager.getInstanse(this.activity).setSource(melody.getDemoUrl());
-        PlayerManager.getInstanse(this.activity).start(melody.getDemoUrl());
+    public void playStream(Collection melody) throws IOException {
+        PlayerManager.getInstanse(this.activity).setSource(melody.getUser().getAvatarUrl());
+        PlayerManager.getInstanse(this.activity).start(melody.getUser().getAvatarUrl());
     }
 
     public void pauseStream() {
@@ -49,13 +49,13 @@ public class MelodyPresenter extends BasePresenter<IMelodyView> {
         }
     }
 
-    public void playPauseStream(Melody melody) {
+    public void playPauseStream(Collection melody) {
         PlayerManager player = PlayerManager.getInstanse(this.activity);
         if (player.mediaPlayer.isPlaying()) {
             player.pause();
             getView().showPlayButton();
         } else {
-            player.start(melody.getDemoUrl());
+            player.start(melody.getStreamUrl() + "?client_id=4eba3b80bf836b52beab8a357da618bf");
             getPlaybackPosition();
             getView().showPauseButton();
         }

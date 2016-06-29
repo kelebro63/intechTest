@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.kelebro63.intechtest.App;
 import com.kelebro63.intechtest.R;
-import com.kelebro63.intechtest.models.Melody;
+import com.kelebro63.intechtest.models.Collection;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -29,15 +29,17 @@ public class MelodyNormalViewHolder extends BaseMelodyViewHolder {
     }
 
     @Override
-    public void bind(Melody item) {
-        if (item.getTitle() != null) {
-            titleMusic.setText(item.getTitle());
-        }
-        if (item.getArtist() != null) {
-            artist.setText(item.getArtist());
-        }
+    public void bind(Collection item) {
+        if (item != null) {
+            if (item.getTitle() != null) {
+                titleMusic.setText(item.getTitle());
+            }
+            if (item.getUser().getUsername() != null) {
+                artist.setText(item.getUser().getUsername());
+            }
 
-        Picasso.with(getContext()).load(item.getPicUrl()).into(cover);
+            Picasso.with(getContext()).load(item.getUser().getAvatarUrl()).into(cover);
+        }
     }
 
 

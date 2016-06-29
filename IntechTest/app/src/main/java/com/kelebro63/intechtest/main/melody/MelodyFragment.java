@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseFragment;
-import com.kelebro63.intechtest.models.Melody;
+import com.kelebro63.intechtest.models.Collection;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -54,7 +54,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Bind(R.id.seekBar)
     SeekBar seekBar;
 
-    public static MelodyFragment newInstance(Melody melody) {
+    public static MelodyFragment newInstance(Collection melody) {
         MelodyFragment fragment = new MelodyFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("melody", melody);
@@ -73,7 +73,7 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         Log.d("debug","onViewCreated");
         createFragmentComponent().inject(this);
         presenter.setView(this);
-        Picasso.with(getContext()).load(getCachedMelody().getPicUrl()).into(cover);
+        Picasso.with(getContext()).load(getCachedMelody().getUser().getAvatarUrl()).into(cover);
         seekBar.setOnSeekBarChangeListener(this);
         initViews();
     }
@@ -87,13 +87,13 @@ public class MelodyFragment extends BaseFragment implements SwipeRefreshLayout.O
         return getCachedMelody().getTitle();
     }
 
-    protected Melody getCachedMelody() {
-        return (Melody) getArguments().getSerializable("melody");
+    protected Collection getCachedMelody() {
+        return (Collection) getArguments().getSerializable("melody");
     }
 
 
     @Override
-    public void displayMelody(Melody melody) {
+    public void displayMelody(Collection melody) {
 
     }
 

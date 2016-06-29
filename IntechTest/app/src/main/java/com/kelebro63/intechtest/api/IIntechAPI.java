@@ -13,7 +13,6 @@ import rx.Observable;
 public interface IIntechAPI {
 
 
-    @GET("public/marketplaces/1/tags/4/melodies")
-    Observable<ResponseMelody> getSongsList(@Query("limit") int limit, @Query("from") int offset);
-
+    @GET("tracks")
+    Observable<ResponseMelody> getSongsList(@Query("client_id") String client_id, @Query("limit") int limit, @Query("linked_partitioning") int offset);
 }

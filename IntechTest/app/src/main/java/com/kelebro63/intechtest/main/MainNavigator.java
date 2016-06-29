@@ -8,7 +8,7 @@ import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseActivity;
 import com.kelebro63.intechtest.main.melodies_list.MelodiesListFragment;
 import com.kelebro63.intechtest.main.melody.MelodyFragment;
-import com.kelebro63.intechtest.models.Melody;
+import com.kelebro63.intechtest.models.Collection;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class MainNavigator {
 
     }
 
-    public void navigateToMelody(@NonNull Melody melody) {
+    public void navigateToMelody(@NonNull Collection melody) {
         fragmentManager.beginTransaction().replace(R.id.container, MelodyFragment.newInstance(melody)).addToBackStack(null).commit();
     }
 }
