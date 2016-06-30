@@ -50,7 +50,7 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
-                getView().addMelodiesToDisplay(Collection.addDividers(responseMelody.getCollection()));
+                getView().addMelodiesToDisplay(responseMelody.getCollection());
                 isLoading = false;
                 currentPage = currentPage + 1;
             }
@@ -81,7 +81,7 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
-                getView().setMelodiesToDisplay(Collection.addDividers(responseMelody.getCollection()));
+                getView().setMelodiesToDisplay(responseMelody.getCollection());
                 getView().stopRefreshing();
                 isLoading = false;
                 currentPage = currentPage + 1;

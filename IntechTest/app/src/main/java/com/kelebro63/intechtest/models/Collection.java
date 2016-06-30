@@ -4,8 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Bistrov Alexey on 02.06.2016.
@@ -936,17 +934,5 @@ public class Collection implements Serializable {
         public void setAttachmentsUri(String attachmentsUri) {
                 this.attachmentsUri = attachmentsUri;
         }
-
-        public static ArrayList<Collection> addDividers(List<Collection> melodies) {
-                ArrayList<Collection> result = new ArrayList<>();
-                for (int i = 0; i < melodies.size(); i++) {
-                        result.add(melodies.get(i));
-//                        if (i != melodies.size() - 1) {
-//                                result.add(Melody.createDivider());
-//                        }
-                }
-                return result;
-        }
-
 }
 
