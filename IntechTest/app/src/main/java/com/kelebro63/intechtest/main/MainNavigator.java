@@ -56,6 +56,6 @@ public class MainNavigator {
     }
 
     public void navigateToMelody(@NonNull Collection melody) {
-        fragmentManager.beginTransaction().replace(R.id.container, MelodyFragment.newInstance(melody)).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.container, MelodyFragment.newInstance(melody)).addToBackStack(null).commitAllowingStateLoss(); //?commit()
     }
 }
