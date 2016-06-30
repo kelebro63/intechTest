@@ -60,6 +60,9 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     private MelodiesListAdapter adapter;
     private LinearLayoutManager layoutManager;
 
+    //***
+   // private MediaFragmentListener mMediaFragmentListener;
+
     @Override
     protected int getLayoutId() {
         return R.layout.melodies_fragment;
@@ -158,7 +161,8 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
     @Override
     public void onItemClicked(Collection item) {
-        presenter.navigateToMelody(item);
+        //presenter.navigateToMelody(item);
+       // mMediaFragmentListener.onMediaItemSelected(item);
     }
 
     @Override

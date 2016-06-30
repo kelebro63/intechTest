@@ -25,11 +25,8 @@ public abstract class PlaybackControlBaseActivity extends BaseToolbarActivity{
     private View mControlsContainer;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Connect a media browser just to get the media session token. There are other ways
-        // this can be done, for example by sharing the session token directly.
         mMediaBrowser = new MediaBrowserCompat(this, new ComponentName(this, MusicService.class), mMediaBrowserConnectionCallback, null);
     }
 
