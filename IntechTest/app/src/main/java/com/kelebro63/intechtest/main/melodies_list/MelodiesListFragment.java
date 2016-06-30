@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,7 +62,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     private LinearLayoutManager layoutManager;
 
     //***
-   // private MediaFragmentListener mMediaFragmentListener;
+    private MelodiesListFragmentListener melodiesListFragmentListener;
 
     @Override
     protected int getLayoutId() {
@@ -85,18 +86,18 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-
         presenter.setView(this);
+
         if (mCurrentLayoutManagerType == null) {
             mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         }
+
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType, null, layoutManager.findFirstVisibleItemPosition());
         melodiesList.setLayoutManager(layoutManager);
         melodiesList.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
         melodiesPtrView.setOnRefreshListener(this);
         melodiesPtrView.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.red_bright));
-
         adapter.setOnItemClickListener(this);
         melodiesList.setAdapter(adapter);
         melodiesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -111,9 +112,16 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
                 }
             }
         });
+
         if (adapter.isEmpty()) {
             presenter.loadMelodies();
         }
+
+        initListeners();
+    }
+
+    private void initListeners() {
+        melodiesListFragmentListener = (MelodiesListFragmentListener) getActivity();
     }
 
 
@@ -188,11 +196,25 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     @Override
     public void onStart() {
         super.onStart();
+
+        // fetch browsing information to fill the listview:
+        MediaBrowserCompat mediaBrowser = melodiesListFragmentListener.getMediaBrowser();
+
+
+        if (mediaBrowser != null && mediaBrowser.isConnected()) {
+            //onConnected();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        melodiesListFragmentListener = null;
     }
 
     @Override
@@ -238,6 +260,10 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         super.onConfigurationChanged(newConfig);
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType, null, layoutManager.findFirstVisibleItemPosition());
         Log.d("debug","onConfigurationChanged");
+    }
+
+    public void onConnected() {
+
     }
 
 }

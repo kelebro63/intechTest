@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.main.melodies_list.control.PlaybackControlsFragment;
+import com.kelebro63.intechtest.media.MediaBrowserProvider;
 import com.kelebro63.intechtest.media.MusicService;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by Bistrov Alexey on 30.06.2016.
  */
-public abstract class PlaybackControlBaseActivity extends BaseToolbarActivity{
+public abstract class PlaybackControlBaseActivity extends BaseToolbarActivity implements MediaBrowserProvider {
     private MediaBrowserCompat mMediaBrowser;
     private PlaybackControlsFragment mControlsFragment;
     private MediaControllerCompat mMediaController;
@@ -58,6 +59,11 @@ public abstract class PlaybackControlBaseActivity extends BaseToolbarActivity{
         if (mMediaBrowser != null) {
             mMediaBrowser.disconnect();
         }
+    }
+
+    @Override
+    public MediaBrowserCompat getMediaBrowser() {
+        return mMediaBrowser;
     }
 
     // Callback that ensures that we are showing the controls
