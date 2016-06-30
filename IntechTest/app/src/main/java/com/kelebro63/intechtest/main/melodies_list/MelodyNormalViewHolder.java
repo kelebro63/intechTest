@@ -1,12 +1,13 @@
 package com.kelebro63.intechtest.main.melodies_list;
 
+import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kelebro63.intechtest.App;
 import com.kelebro63.intechtest.R;
-import com.kelebro63.intechtest.models.Collection;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -29,16 +30,16 @@ public class MelodyNormalViewHolder extends BaseMelodyViewHolder {
     }
 
     @Override
-    public void bind(Collection item) {
+    public void bind(MediaMetadataCompat item) {
         if (item != null) {
-            if (item.getTitle() != null) {
-                titleMusic.setText(item.getTitle());
+            MediaDescriptionCompat description = item.getDescription();
+            if (description.getTitle() != null) {
+                titleMusic.setText(description.getTitle());
             }
-            if (item.getUser().getUsername() != null) {
-                artist.setText(item.getUser().getUsername());
+            if (description.getSubtitle() != null) {
+                artist.setText(description.getSubtitle());
             }
-
-            Picasso.with(getContext()).load(item.getUser().getAvatarUrl()).into(cover);
+            Picasso.with(getContext()).load(description.getIconUri()).into(cover);
         }
     }
 

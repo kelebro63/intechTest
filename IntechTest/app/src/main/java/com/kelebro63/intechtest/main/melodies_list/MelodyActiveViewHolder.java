@@ -1,8 +1,7 @@
 package com.kelebro63.intechtest.main.melodies_list;
 
+import android.support.v4.media.MediaMetadataCompat;
 import android.view.View;
-
-import com.kelebro63.intechtest.models.Collection;
 
 /**
  * Created by kelebro63 on 02.06.20165.
@@ -15,7 +14,7 @@ public class MelodyActiveViewHolder extends MelodyNormalViewHolder {
     }
 
     @Override
-    public void bind(Collection item) {
+    public void bind(MediaMetadataCompat item) {
         super.bind(item);
     }
 

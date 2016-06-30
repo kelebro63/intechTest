@@ -1,6 +1,7 @@
 package com.kelebro63.intechtest.main.melodies_list;
 
 import android.support.annotation.NonNull;
+import android.support.v4.media.MediaMetadataCompat;
 
 import com.kelebro63.intechtest.api.IIntechAPI;
 import com.kelebro63.intechtest.base.BasePresenter;
@@ -9,8 +10,10 @@ import com.kelebro63.intechtest.base.NetworkSubscriber;
 import com.kelebro63.intechtest.main.MainNavigator;
 import com.kelebro63.intechtest.models.Collection;
 import com.kelebro63.intechtest.models.ResponseMelody;
+import com.kelebro63.intechtest.utils.Utils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -50,7 +53,8 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
-                getView().addMelodiesToDisplay(responseMelody.getCollection());
+                ArrayList<MediaMetadataCompat> items = Utils.parseMelodyToMediaMetadataCompat(responseMelody.getCollection());
+                getView().addMelodiesToDisplay(items);
                 isLoading = false;
                 currentPage = currentPage + 1;
             }
@@ -81,7 +85,8 @@ public class MelodiesPresenter extends BasePresenter<IMelodiesView> implements S
             @Override
             public void onNext(ResponseMelody responseMelody) {
                 super.onNext(responseMelody);
-                getView().setMelodiesToDisplay(responseMelody.getCollection());
+                ArrayList<MediaMetadataCompat> items = Utils.parseMelodyToMediaMetadataCompat(responseMelody.getCollection());
+                getView().setMelodiesToDisplay(items);
                 getView().stopRefreshing();
                 isLoading = false;
                 currentPage = currentPage + 1;

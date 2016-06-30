@@ -1,20 +1,20 @@
 package com.kelebro63.intechtest.main.melodies_list;
 
 import android.content.Context;
+import android.support.v4.media.MediaMetadataCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseArrayAdapter;
-import com.kelebro63.intechtest.models.Collection;
 
 import java.util.List;
 
 /**
  * Created by kelebro63 on 02.06.2016
  */
-public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, Collection> {
+public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, MediaMetadataCompat> {
 
 
     private boolean isLoading;
@@ -73,10 +73,10 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
     }
 
     @Override
-    public void addItems(List<Collection> newItems) {
+    public void addItems(List<MediaMetadataCompat> newItems) {
         if (!isEmpty()) {
             //remove the progress item
-            Collection remove = getItems().remove(getItemCount() - 1);
+            MediaMetadataCompat remove = getItems().remove(getItemCount() - 1);
             if (remove != null) {
             }
         }
@@ -85,7 +85,7 @@ public class MelodiesListAdapter extends BaseArrayAdapter<BaseMelodyViewHolder, 
     }
 
     @Override
-    public void setItems(List<Collection> items) {
+    public void setItems(List<MediaMetadataCompat> items) {
         super.setItems(items);
         isLoading = false;
 

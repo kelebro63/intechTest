@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,10 +21,9 @@ import com.kelebro63.intechtest.R;
 import com.kelebro63.intechtest.base.BaseFragment;
 import com.kelebro63.intechtest.base.OnItemClickListener;
 import com.kelebro63.intechtest.main.MainNavigator;
-import com.kelebro63.intechtest.models.Collection;
 import com.kelebro63.intechtest.widgets.DividerItemDecoration;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -32,7 +32,7 @@ import butterknife.Bind;
 /**
  * Created by kelebro63 on 02.06.2016
  */
-public class MelodiesListFragment extends BaseFragment implements IMelodiesView, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<Collection> {
+public class MelodiesListFragment extends BaseFragment implements IMelodiesView, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<MediaMetadataCompat> {
 
     public static final int FIRST_PAGE = 0;
     public static final int LIMIT_MELODIES = 20;
@@ -124,12 +124,12 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
 
 
     @Override
-    public void addMelodiesToDisplay(List<Collection> melodies) {
+    public void addMelodiesToDisplay(ArrayList<MediaMetadataCompat> melodies) {
         adapter.addItems(melodies);
     }
 
     @Override
-    public void setMelodiesToDisplay(List<Collection> melodies) {
+    public void setMelodiesToDisplay(ArrayList<MediaMetadataCompat> melodies) {
         adapter.setItems(melodies);
         if (melodies != null && melodies.size() > 0) {
             melodiesList.animate().alpha(1).setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
@@ -166,7 +166,7 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     }
 
     @Override
-    public void onItemClicked(Collection item) {
+    public void onItemClicked(MediaMetadataCompat item) {
         //presenter.navigateToMelody(item);
        // mMediaFragmentListener.onMediaItemSelected(item);
     }
