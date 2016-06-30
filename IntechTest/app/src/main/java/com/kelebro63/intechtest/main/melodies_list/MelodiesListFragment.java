@@ -116,8 +116,6 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
         if (adapter.isEmpty()) {
             presenter.loadMelodies();
         }
-
-        initListeners();
     }
 
     private void initListeners() {
@@ -197,6 +195,9 @@ public class MelodiesListFragment extends BaseFragment implements IMelodiesView,
     public void onStart() {
         super.onStart();
 
+        if (melodiesListFragmentListener == null) {
+            initListeners();
+        }
         // fetch browsing information to fill the listview:
         MediaBrowserCompat mediaBrowser = melodiesListFragmentListener.getMediaBrowser();
 
